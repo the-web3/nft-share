@@ -10,6 +10,6 @@ npx hardhat run --network bsctest scripts/deploy.js
 
 ### 3. 合约 verify 和 publish
 ```
-npx hardhat verify --contract contracts/SteNft.SteNft:HGM  --network bsctest 0x6983eccfFeF3fb3AC77604123F7aBEdE64797C66
+npx hardhat verify --contract contracts/SteNft.sol:SteNft  --network bsctest 0x6983eccfFeF3fb3AC77604123F7aBEdE64797C66
 ```
 
