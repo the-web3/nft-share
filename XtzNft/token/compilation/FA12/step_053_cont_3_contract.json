@@ -1,0 +1,5 @@
+[
+  { "prim": "storage", "args": [ { "prim": "option", "args": [ { "prim": "address" } ] } ] },
+  { "prim": "parameter", "args": [ { "prim": "address", "annots": [ "%target" ] } ] },
+  { "prim": "code", "args": [ [ { "prim": "CAR" }, { "prim": "SOME" }, { "prim": "NIL", "args": [ { "prim": "operation" } ] }, { "prim": "PAIR" } ] ] }
+]

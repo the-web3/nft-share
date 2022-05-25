@@ -1,0 +1,24 @@
+parameter (pair %compute (pair %data (pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))) (nat %params));
+storage   (option (pair (nat %token_id) (map %token_info string bytes)));
+code
+  {
+    CAR;        # @parameter
+    # == compute ==
+    # sp.result(params.data.token_metadata[params.params]) # @parameter
+    DUP;        # @parameter : @parameter
+    CAR;        # pair (pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter
+    GET 5;      # big_map nat (pair (nat %token_id) (map %token_info string bytes)) : @parameter
+    SWAP;       # @parameter : big_map nat (pair (nat %token_id) (map %token_info string bytes))
+    CDR;        # nat : big_map nat (pair (nat %token_id) (map %token_info string bytes))
+    GET;        # option (pair (nat %token_id) (map %token_info string bytes))
+    IF_NONE
+      {
+        PUSH int 171; # int
+        FAILWITH;   # FAILED
+      }
+      {}; # @some
+    # self.data.result = sp.some(__s5.value) # @some
+    SOME;       # option (pair (nat %token_id) (map %token_info string bytes))
+    NIL operation; # list operation : option (pair (nat %token_id) (map %token_info string bytes))
+    PAIR;       # pair (list operation) (option (pair (nat %token_id) (map %token_info string bytes)))
+  };

@@ -1,0 +1,449 @@
+[
+ {
+  "shortname": "FA12",
+  "longname": "FA12",
+  "scenario": [
+   {
+    "action": "html",
+    "inner": "FA1.2 template - Fungible assets",
+    "line_no": "(\"token/erc20_token.py\" 252)",
+    "tag": "h1"
+   },
+   {
+    "action": "html",
+    "inner": "[[TABLEOFCONTENTS]]",
+    "line_no": "(\"token/erc20_token.py\" 254)",
+    "tag": "p"
+   },
+   {
+    "action": "html",
+    "inner": "Accounts",
+    "line_no": "(\"token/erc20_token.py\" 262)",
+    "tag": "h1"
+   },
+   {
+    "action": "show",
+    "compile": false,
+    "expression": "(list (\"token/erc20_token.py\" 263) (account_of_seed \"Administrator\" (\"token/erc20_token.py\" 257)) (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)))",
+    "html": true,
+    "line_no": "(\"token/erc20_token.py\" 263)",
+    "stripStrings": false
+   },
+   {
+    "action": "html",
+    "inner": "Contract",
+    "line_no": "(\"token/erc20_token.py\" 265)",
+    "tag": "h1"
+   },
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 0 (\"token/erc20_token.py\" 281)) \nstorage (record (\"token/erc20_token.py\" 184) (administrator (resolve (attr (account_of_seed \"Administrator\" (\"token/erc20_token.py\" 257)) \"address\" (\"token/erc20_token.py\" 257)) (\"token/erc20_token.py\" 257))) (balances (type_annotation (big_map (\"token/erc20_token.py\" 48) ) (bigmap (unknown 2) (record ((approvals (map \"address\" \"nat\")) (balance \"nat\")) None (\"token/erc20_token.py\" 48))) (\"token/erc20_token.py\" 48))) (metadata (big_map (\"token/erc20_token.py\" 185) ((literal (string \"\") (\"token/erc20_token.py\" 281)) (literal (bytes \"0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664\") (\"token/erc20_token.py\" 39))))) (paused (literal (bool False) (\"token/erc20_token.py\" 47))) (token_metadata (type_annotation (big_map (\"token/erc20_token.py\" 155) ((literal (intOrNat 0) (\"token/erc20_token.py\" 281)) (record (\"token/erc20_token.py\" 157) (token_id (literal (intOrNat 0) (\"token/erc20_token.py\" 157))) (token_info (map (\"token/erc20_token.py\" 157) ((literal (string \"decimals\") (\"token/erc20_token.py\" 281)) (literal (bytes \"0x3138\") (\"token/erc20_token.py\" 39))) ((literal (string \"name\") (\"token/erc20_token.py\" 281)) (literal (bytes \"0x4d7920477265617420546f6b656e\") (\"token/erc20_token.py\" 39))) ((literal (string \"symbol\") (\"token/erc20_token.py\" 281)) (literal (bytes \"0x4d4754\") (\"token/erc20_token.py\" 39))) ((literal (string \"icon\") (\"token/erc20_token.py\" 281)) (literal (bytes \"0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667\") (\"token/erc20_token.py\" 39)))))))) (bigmap \"nat\" (record ((token_id \"nat\") (token_info (map \"string\" \"bytes\"))) None (\"token/erc20_token.py\" 160))) (\"token/erc20_token.py\" 155))) (totalSupply (literal (intOrNat 0) (\"token/erc20_token.py\" 47))))\nstorage_type (())\nentry_points ((approve True None None None True (\"token/erc20_token.py\" 69) ((set_type (params (\"token/erc20_token.py\" 69)) (record ((spender \"address\") (value \"nat\")) (Some ((\"spender\") (\"value\"))) (\"token/erc20_token.py\" 70)) (\"token/erc20_token.py\" 70)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (verify (not (attr (data) \"paused\" (\"token/erc20_token.py\" 143)) (\"token/erc20_token.py\" 72)) (literal (string \"FA1.2_Paused\") (\"token/erc20_token.py\" 72)) (\"token/erc20_token.py\" 72)) (verify (or (eq (getItemDefault (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 73)) \"approvals\" (\"token/erc20_token.py\" 73)) (attr (params (\"token/erc20_token.py\" 69)) \"spender\" (\"token/erc20_token.py\" 73)) (literal (intOrNat 0) (\"token/erc20_token.py\" 73)) (\"token/erc20_token.py\" 73)) (literal (intOrNat 0) (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (eq (attr (params (\"token/erc20_token.py\" 69)) \"value\" (\"token/erc20_token.py\" 74)) (literal (intOrNat 0) (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (literal (string \"FA1.2_UnsafeAllowanceChange\") (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (set (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 75)) \"approvals\" (\"token/erc20_token.py\" 75)) (attr (params (\"token/erc20_token.py\" 69)) \"spender\" (\"token/erc20_token.py\" 73)) (\"token/erc20_token.py\" 75)) (attr (params (\"token/erc20_token.py\" 69)) \"value\" (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 75)))) (burn True None None None True (\"token/erc20_token.py\" 117) ((set_type (params (\"token/erc20_token.py\" 117)) (record ((address \"address\") (value \"nat\")) None (\"token/erc20_token.py\" 118)) (\"token/erc20_token.py\" 118)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 119)) (\"token/erc20_token.py\" 119)) (verify (ge (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 117)) \"address\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 120)) \"balance\" (\"token/erc20_token.py\" 120)) (attr (params (\"token/erc20_token.py\" 117)) \"value\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 120)) (literal (string \"FA1.2_InsufficientBalance\") (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 120)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 117)) \"address\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 121)) \"balance\" (\"token/erc20_token.py\" 121)) (openVariant (isNat (sub (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 117)) \"address\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 121)) \"balance\" (\"token/erc20_token.py\" 121)) (attr (params (\"token/erc20_token.py\" 117)) \"value\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 121)) (\"token/erc20_token.py\" 121)) \"Some\" \"None\" (\"token/erc20_token.py\" 121)) (\"token/erc20_token.py\" 121)) (set (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (openVariant (isNat (sub (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (attr (params (\"token/erc20_token.py\" 117)) \"value\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 122)) (\"token/erc20_token.py\" 122)) \"Some\" \"None\" (\"token/erc20_token.py\" 122)) (\"token/erc20_token.py\" 122)))) (getAdministrator True None None None True (\"token/erc20_token.py\" 136) ((bind \"__s1\" ((set_type (first (params (\"token/erc20_token.py\" 136)) (\"token/erc20_token.py\" 281)) \"unit\" (\"token/erc20_token.py\" 137)) (result (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 138)))) (set_type (second (params (\"token/erc20_token.py\" 136)) (\"token/erc20_token.py\" 281)) (contract \"address\") (\"token/erc20_token.py\" 281)) (set (operations (\"token/erc20_token.py\" 281)) (cons (transfer (getLocal \"__s1\" (\"token/erc20_token.py\" 281)) (literal (mutez 0) (\"token/erc20_token.py\" 281)) (second (params (\"token/erc20_token.py\" 136)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 136)) (operations (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)))) (getAllowance True None None None True (\"token/erc20_token.py\" 89) ((bind \"__s2\" ((ifBlock (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (first (params (\"token/erc20_token.py\" 89)) (\"token/erc20_token.py\" 281)) \"owner\" (\"token/erc20_token.py\" 90)) (\"token/erc20_token.py\" 90)) ((result (getItemDefault (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (first (params (\"token/erc20_token.py\" 89)) (\"token/erc20_token.py\" 281)) \"owner\" (\"token/erc20_token.py\" 90)) (\"token/erc20_token.py\" 91)) \"approvals\" (\"token/erc20_token.py\" 91)) (attr (first (params (\"token/erc20_token.py\" 89)) (\"token/erc20_token.py\" 281)) \"spender\" (\"token/erc20_token.py\" 91)) (literal (intOrNat 0) (\"token/erc20_token.py\" 91)) (\"token/erc20_token.py\" 91)) (\"token/erc20_token.py\" 91))) (\"token/erc20_token.py\" 90)) (elseBlock ((result (literal (nat 0) (\"token/erc20_token.py\" 93)) (\"token/erc20_token.py\" 93)))))) (set_type (second (params (\"token/erc20_token.py\" 89)) (\"token/erc20_token.py\" 281)) (contract \"nat\") (\"token/erc20_token.py\" 281)) (set (operations (\"token/erc20_token.py\" 281)) (cons (transfer (getLocal \"__s2\" (\"token/erc20_token.py\" 281)) (literal (mutez 0) (\"token/erc20_token.py\" 281)) (second (params (\"token/erc20_token.py\" 89)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 89)) (operations (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)))) (getBalance True None None None True (\"token/erc20_token.py\" 82) ((bind \"__s3\" ((ifBlock (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (first (params (\"token/erc20_token.py\" 82)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 83)) ((result (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (first (params (\"token/erc20_token.py\" 82)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 84)) \"balance\" (\"token/erc20_token.py\" 84)) (\"token/erc20_token.py\" 84))) (\"token/erc20_token.py\" 83)) (elseBlock ((result (literal (nat 0) (\"token/erc20_token.py\" 86)) (\"token/erc20_token.py\" 86)))))) (set_type (second (params (\"token/erc20_token.py\" 82)) (\"token/erc20_token.py\" 281)) (contract \"nat\") (\"token/erc20_token.py\" 281)) (set (operations (\"token/erc20_token.py\" 281)) (cons (transfer (getLocal \"__s3\" (\"token/erc20_token.py\" 281)) (literal (mutez 0) (\"token/erc20_token.py\" 281)) (second (params (\"token/erc20_token.py\" 82)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 82)) (operations (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)))) (getTotalSupply True None None None True (\"token/erc20_token.py\" 96) ((bind \"__s4\" ((set_type (first (params (\"token/erc20_token.py\" 96)) (\"token/erc20_token.py\" 281)) \"unit\" (\"token/erc20_token.py\" 97)) (result (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (\"token/erc20_token.py\" 98)))) (set_type (second (params (\"token/erc20_token.py\" 96)) (\"token/erc20_token.py\" 281)) (contract \"nat\") (\"token/erc20_token.py\" 281)) (set (operations (\"token/erc20_token.py\" 281)) (cons (transfer (getLocal \"__s4\" (\"token/erc20_token.py\" 281)) (literal (mutez 0) (\"token/erc20_token.py\" 281)) (second (params (\"token/erc20_token.py\" 96)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 96)) (operations (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)))) (mint True None None None True (\"token/erc20_token.py\" 109) ((set_type (params (\"token/erc20_token.py\" 109)) (record ((address \"address\") (value \"nat\")) None (\"token/erc20_token.py\" 110)) (\"token/erc20_token.py\" 110)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 111)) (\"token/erc20_token.py\" 111)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 113)) \"balance\" (\"token/erc20_token.py\" 113)) (add (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 113)) \"balance\" (\"token/erc20_token.py\" 113)) (attr (params (\"token/erc20_token.py\" 109)) \"value\" (\"token/erc20_token.py\" 113)) (\"token/erc20_token.py\" 113)) (\"token/erc20_token.py\" 113)) (set (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (add (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (attr (params (\"token/erc20_token.py\" 109)) \"value\" (\"token/erc20_token.py\" 113)) (\"token/erc20_token.py\" 114)) (\"token/erc20_token.py\" 114)))) (setAdministrator True None None None True (\"token/erc20_token.py\" 130) ((set_type (params (\"token/erc20_token.py\" 130)) \"address\" (\"token/erc20_token.py\" 131)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 132)) (\"token/erc20_token.py\" 132)) (set (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (params (\"token/erc20_token.py\" 130)) (\"token/erc20_token.py\" 133)))) (setPause True None None None True (\"token/erc20_token.py\" 146) ((set_type (params (\"token/erc20_token.py\" 146)) \"bool\" (\"token/erc20_token.py\" 147)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 148)) (\"token/erc20_token.py\" 148)) (set (attr (data) \"paused\" (\"token/erc20_token.py\" 143)) (params (\"token/erc20_token.py\" 146)) (\"token/erc20_token.py\" 149)))) (transfer True None None None True (\"token/erc20_token.py\" 54) ((set_type (params (\"token/erc20_token.py\" 54)) (record ((from_ \"address\") (to_ \"address\") (value \"nat\")) (Some ((\"from_ as from\") ((\"to_ as to\") (\"value\")))) (\"token/erc20_token.py\" 55)) (\"token/erc20_token.py\" 55)) (verify (or (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (and (not (attr (data) \"paused\" (\"token/erc20_token.py\" 143)) (\"token/erc20_token.py\" 57)) (or (eq (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (sender) (\"token/erc20_token.py\" 58)) (ge (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 59)) \"approvals\" (\"token/erc20_token.py\" 59)) (sender) (\"token/erc20_token.py\" 59)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 57)) (\"token/erc20_token.py\" 56)) (literal (string \"FA1.2_NotAllowed\") (\"token/erc20_token.py\" 56)) (\"token/erc20_token.py\" 56)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (verify (ge (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 62)) \"balance\" (\"token/erc20_token.py\" 62)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 62)) (literal (string \"FA1.2_InsufficientBalance\") (\"token/erc20_token.py\" 62)) (\"token/erc20_token.py\" 62)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 63)) \"balance\" (\"token/erc20_token.py\" 63)) (openVariant (isNat (sub (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 63)) \"balance\" (\"token/erc20_token.py\" 63)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 63)) (\"token/erc20_token.py\" 63)) \"Some\" \"None\" (\"token/erc20_token.py\" 63)) (\"token/erc20_token.py\" 63)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 64)) \"balance\" (\"token/erc20_token.py\" 64)) (add (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 64)) \"balance\" (\"token/erc20_token.py\" 64)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 64)) (\"token/erc20_token.py\" 64)) (ifBlock (and (neq (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (sender) (\"token/erc20_token.py\" 65)) (not (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 65)) (\"token/erc20_token.py\" 65)) ((set (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 66)) \"approvals\" (\"token/erc20_token.py\" 66)) (sender) (\"token/erc20_token.py\" 66)) (openVariant (isNat (sub (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 66)) \"approvals\" (\"token/erc20_token.py\" 66)) (sender) (\"token/erc20_token.py\" 66)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 66)) (\"token/erc20_token.py\" 66)) \"Some\" \"None\" (\"token/erc20_token.py\" 66)) (\"token/erc20_token.py\" 66))) (\"token/erc20_token.py\" 65)))) (update_metadata True None None None True (\"token/erc20_token.py\" 192) ((verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 190)) (\"token/erc20_token.py\" 190)) (set (getItem (attr (data) \"metadata\" (\"token/erc20_token.py\" 191)) (attr (params (\"token/erc20_token.py\" 192)) \"key\" (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 191)) (attr (params (\"token/erc20_token.py\" 192)) \"value\" (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 191)))))\nflags ()\nprivates ()\nviews ((offchain token_metadata True (\"token/erc20_token.py\" 174) True \"Get Token Metadata\" ((set_type (params (\"token/erc20_token.py\" 174)) \"nat\" (\"token/erc20_token.py\" 170)) (result (getItem (attr (data) \"token_metadata\" (\"token/erc20_token.py\" 171)) (params (\"token/erc20_token.py\" 174)) (\"token/erc20_token.py\" 171)) (\"token/erc20_token.py\" 171)))))\nentry_points_layout ()\ninitial_metadata ((metadata (meta_map (\"token/erc20_token.py\" 181) (elem (literal (string \"name\") (\"token/erc20_token.py\" 181)) (meta_expr (literal (string \"SmartPy FA1.2 Token Template\") (\"token/erc20_token.py\" 181)))) (elem (literal (string \"description\") (\"token/erc20_token.py\" 181)) (meta_expr (literal (string \"Example Template for an FA1.2 Contract from SmartPy\") (\"token/erc20_token.py\" 181)))) (elem (literal (string \"authors\") (\"token/erc20_token.py\" 181)) (meta_list (\"token/erc20_token.py\" 181) (meta_expr (literal (string \"SmartPy Dev Team <email@domain.com>\") (\"token/erc20_token.py\" 181))))) (elem (literal (string \"homepage\") (\"token/erc20_token.py\" 181)) (meta_expr (literal (string \"https://smartpy.io\") (\"token/erc20_token.py\" 181)))) (elem (literal (string \"interfaces\") (\"token/erc20_token.py\" 181)) (meta_list (\"token/erc20_token.py\" 181) (meta_expr (literal (string \"TZIP-007-2021-04-17\") (\"token/erc20_token.py\" 181))) (meta_expr (literal (string \"TZIP-016-2021-04-17\") (\"token/erc20_token.py\" 181))))) (elem (literal (string \"views\") (\"token/erc20_token.py\" 181)) (meta_list (\"token/erc20_token.py\" 181) (meta_view \"token_metadata\" (\"token/erc20_token.py\" 174)))))))\nbalance ())",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 281)",
+    "show": true
+   },
+   {
+    "action": "html",
+    "inner": "Offchain view - token_metadata",
+    "line_no": "(\"token/erc20_token.py\" 283)",
+    "tag": "h1"
+   },
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 1 (\"token/erc20_token.py\" 285)) \nstorage (record (\"token/erc20_token.py\" 238) (result (variant \"None\" (unit) -1)))\nstorage_type (())\nentry_points ((compute True None None None True (\"token/erc20_token.py\" 241) ((bind \"__s5\" ((set_type (attr (params (\"token/erc20_token.py\" 241)) \"params\" (\"token/erc20_token.py\" 285)) \"nat\" (\"token/erc20_token.py\" 170)) (result (getItem (attr (attr (params (\"token/erc20_token.py\" 241)) \"data\" (\"token/erc20_token.py\" 285)) \"token_metadata\" (\"token/erc20_token.py\" 171)) (attr (params (\"token/erc20_token.py\" 241)) \"params\" (\"token/erc20_token.py\" 285)) (\"token/erc20_token.py\" 171)) (\"token/erc20_token.py\" 171)))) (set (attr (data) \"result\" (\"token/erc20_token.py\" 245)) (variant \"Some\" (getLocal \"__s5\" (\"token/erc20_token.py\" 245)) (\"token/erc20_token.py\" 245)) (\"token/erc20_token.py\" 245)))))\nflags ()\nprivates ()\nviews ()\nentry_points_layout ()\ninitial_metadata ()\nbalance ())",
+    "id": "(static_id 1 (\"token/erc20_token.py\" 285))",
+    "line_no": "(\"token/erc20_token.py\" 285)",
+    "show": false
+   },
+   {
+    "action": "message",
+    "id": "(static_id 1 (\"token/erc20_token.py\" 285))",
+    "line_no": "(\"token/erc20_token.py\" 286)",
+    "message": "compute",
+    "params": "(record (\"token/erc20_token.py\" 286) (data (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281))) (params (literal (intOrNat 0) (\"token/erc20_token.py\" 286))))"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (pack (type_annotation (attr (contract_data (static_id 1 (\"token/erc20_token.py\" 285)) (\"token/erc20_token.py\" 286)) \"result\" (\"token/erc20_token.py\" 288)) (unknown 3) (\"token/erc20_token.py\" 287)) (\"token/erc20_token.py\" 287)) (pack (type_annotation (variant \"Some\" (record (\"token/erc20_token.py\" 290) (token_id (literal (intOrNat 0) (\"token/erc20_token.py\" 290))) (token_info (map (\"token/erc20_token.py\" 292) ((literal (string \"decimals\") (\"token/erc20_token.py\" 287)) (literal (bytes \"0x3138\") (\"token/erc20_token.py\" 293))) ((literal (string \"name\") (\"token/erc20_token.py\" 287)) (literal (bytes \"0x4d7920477265617420546f6b656e\") (\"token/erc20_token.py\" 294))) ((literal (string \"symbol\") (\"token/erc20_token.py\" 287)) (literal (bytes \"0x4d4754\") (\"token/erc20_token.py\" 295))) ((literal (string \"icon\") (\"token/erc20_token.py\" 287)) (literal (bytes \"0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667\") (\"token/erc20_token.py\" 296)))))) (\"token/erc20_token.py\" 289)) (unknown 3) (\"token/erc20_token.py\" 287)) (\"token/erc20_token.py\" 287)) (\"token/erc20_token.py\" 287))",
+    "line_no": "(\"token/erc20_token.py\" 287)"
+   },
+   {
+    "action": "html",
+    "inner": "Attempt to update metadata",
+    "line_no": "(\"token/erc20_token.py\" 302)",
+    "tag": "h1"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 281)) \"metadata\" (\"token/erc20_token.py\" 304)) (literal (string \"\") (\"token/erc20_token.py\" 304)) (\"token/erc20_token.py\" 304)) (literal (bytes \"0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664\") (\"token/erc20_token.py\" 304)) (\"token/erc20_token.py\" 304))",
+    "line_no": "(\"token/erc20_token.py\" 303)"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 306)",
+    "message": "update_metadata",
+    "params": "(record (\"token/erc20_token.py\" 306) (key (literal (string \"\") (\"token/erc20_token.py\" 306))) (value (literal (bytes \"0x00\") (\"token/erc20_token.py\" 306))))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 306)) \"metadata\" (\"token/erc20_token.py\" 307)) (literal (string \"\") (\"token/erc20_token.py\" 307)) (\"token/erc20_token.py\" 307)) (literal (bytes \"0x00\") (\"token/erc20_token.py\" 307)) (\"token/erc20_token.py\" 307))",
+    "line_no": "(\"token/erc20_token.py\" 307)"
+   },
+   {
+    "action": "html",
+    "inner": "Entry points",
+    "line_no": "(\"token/erc20_token.py\" 309)",
+    "tag": "h1"
+   },
+   {
+    "action": "html",
+    "inner": "Admin mints a few coins",
+    "line_no": "(\"token/erc20_token.py\" 310)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 311)",
+    "message": "mint",
+    "params": "(record (\"token/erc20_token.py\" 311) (address (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (value (literal (intOrNat 12) (\"token/erc20_token.py\" 311))))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 312)",
+    "message": "mint",
+    "params": "(record (\"token/erc20_token.py\" 312) (address (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (value (literal (intOrNat 3) (\"token/erc20_token.py\" 312))))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 313)",
+    "message": "mint",
+    "params": "(record (\"token/erc20_token.py\" 313) (address (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (value (literal (intOrNat 3) (\"token/erc20_token.py\" 313))))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "html",
+    "inner": "Alice transfers to Bob",
+    "line_no": "(\"token/erc20_token.py\" 314)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 315)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 315) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 4) (\"token/erc20_token.py\" 315))))",
+    "sender": "seed:Alice"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 315)) \"balances\" (\"token/erc20_token.py\" 316)) (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 316)) \"balance\" (\"token/erc20_token.py\" 316)) (literal (intOrNat 14) (\"token/erc20_token.py\" 316)) (\"token/erc20_token.py\" 316))",
+    "line_no": "(\"token/erc20_token.py\" 316)"
+   },
+   {
+    "action": "html",
+    "inner": "Bob tries to transfer from Alice but he doesn't have her approval",
+    "line_no": "(\"token/erc20_token.py\" 317)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 318)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 318) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 4) (\"token/erc20_token.py\" 318))))",
+    "sender": "seed:Robert",
+    "valid": "(literal (bool False) (\"token/erc20_token.py\" 318))"
+   },
+   {
+    "action": "html",
+    "inner": "Alice approves Bob and Bob transfers",
+    "line_no": "(\"token/erc20_token.py\" 319)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 320)",
+    "message": "approve",
+    "params": "(record (\"token/erc20_token.py\" 320) (spender (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 5) (\"token/erc20_token.py\" 320))))",
+    "sender": "seed:Alice"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 321)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 321) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 4) (\"token/erc20_token.py\" 321))))",
+    "sender": "seed:Robert"
+   },
+   {
+    "action": "html",
+    "inner": "Bob tries to over-transfer from Alice",
+    "line_no": "(\"token/erc20_token.py\" 322)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 323)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 323) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 4) (\"token/erc20_token.py\" 323))))",
+    "sender": "seed:Robert",
+    "valid": "(literal (bool False) (\"token/erc20_token.py\" 323))"
+   },
+   {
+    "action": "html",
+    "inner": "Admin burns Bob token",
+    "line_no": "(\"token/erc20_token.py\" 324)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 325)",
+    "message": "burn",
+    "params": "(record (\"token/erc20_token.py\" 325) (address (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 1) (\"token/erc20_token.py\" 325))))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 325)) \"balances\" (\"token/erc20_token.py\" 326)) (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 326)) \"balance\" (\"token/erc20_token.py\" 326)) (literal (intOrNat 10) (\"token/erc20_token.py\" 326)) (\"token/erc20_token.py\" 326))",
+    "line_no": "(\"token/erc20_token.py\" 326)"
+   },
+   {
+    "action": "html",
+    "inner": "Alice tries to burn Bob token",
+    "line_no": "(\"token/erc20_token.py\" 327)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 328)",
+    "message": "burn",
+    "params": "(record (\"token/erc20_token.py\" 328) (address (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 1) (\"token/erc20_token.py\" 328))))",
+    "sender": "seed:Alice",
+    "valid": "(literal (bool False) (\"token/erc20_token.py\" 328))"
+   },
+   {
+    "action": "html",
+    "inner": "Admin pauses the contract and Alice cannot transfer anymore",
+    "line_no": "(\"token/erc20_token.py\" 329)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 330)",
+    "message": "setPause",
+    "params": "(literal (bool True) (\"token/erc20_token.py\" 330))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 331)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 331) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 4) (\"token/erc20_token.py\" 331))))",
+    "sender": "seed:Alice",
+    "valid": "(literal (bool False) (\"token/erc20_token.py\" 331))"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 331)) \"balances\" (\"token/erc20_token.py\" 332)) (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 332)) \"balance\" (\"token/erc20_token.py\" 332)) (literal (intOrNat 10) (\"token/erc20_token.py\" 332)) (\"token/erc20_token.py\" 332))",
+    "line_no": "(\"token/erc20_token.py\" 332)"
+   },
+   {
+    "action": "html",
+    "inner": "Admin transfers while on pause",
+    "line_no": "(\"token/erc20_token.py\" 333)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 334)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 334) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 1) (\"token/erc20_token.py\" 334))))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "html",
+    "inner": "Admin unpauses the contract and transfers are allowed",
+    "line_no": "(\"token/erc20_token.py\" 335)",
+    "tag": "h2"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 336)",
+    "message": "setPause",
+    "params": "(literal (bool False) (\"token/erc20_token.py\" 336))",
+    "sender": "seed:Administrator"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 336)) \"balances\" (\"token/erc20_token.py\" 337)) (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 337)) \"balance\" (\"token/erc20_token.py\" 337)) (literal (intOrNat 9) (\"token/erc20_token.py\" 337)) (\"token/erc20_token.py\" 337))",
+    "line_no": "(\"token/erc20_token.py\" 337)"
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 338)",
+    "message": "transfer",
+    "params": "(record (\"token/erc20_token.py\" 338) (from_ (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (to_ (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259))) (value (literal (intOrNat 1) (\"token/erc20_token.py\" 338))))",
+    "sender": "seed:Alice"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 338)) \"totalSupply\" (\"token/erc20_token.py\" 340)) (literal (intOrNat 17) (\"token/erc20_token.py\" 340)) (\"token/erc20_token.py\" 340))",
+    "line_no": "(\"token/erc20_token.py\" 340)"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 338)) \"balances\" (\"token/erc20_token.py\" 341)) (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 341)) \"balance\" (\"token/erc20_token.py\" 341)) (literal (intOrNat 8) (\"token/erc20_token.py\" 341)) (\"token/erc20_token.py\" 341))",
+    "line_no": "(\"token/erc20_token.py\" 341)"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (attr (getItem (attr (contract_data (static_id 0 (\"token/erc20_token.py\" 281)) (\"token/erc20_token.py\" 338)) \"balances\" (\"token/erc20_token.py\" 341)) (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 342)) \"balance\" (\"token/erc20_token.py\" 342)) (literal (intOrNat 9) (\"token/erc20_token.py\" 342)) (\"token/erc20_token.py\" 342))",
+    "line_no": "(\"token/erc20_token.py\" 342)"
+   },
+   {
+    "action": "html",
+    "inner": "Views",
+    "line_no": "(\"token/erc20_token.py\" 344)",
+    "tag": "h1"
+   },
+   {
+    "action": "html",
+    "inner": "Balance",
+    "line_no": "(\"token/erc20_token.py\" 345)",
+    "tag": "h2"
+   },
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 2 (\"token/erc20_token.py\" 347)) \nstorage (record (\"token/erc20_token.py\" 227) (last (variant \"None\" (unit) -1)))\nstorage_type ((record ((last (option \"nat\"))) None (\"token/erc20_token.py\" 228)))\nentry_points ((target True None None None True (\"token/erc20_token.py\" 230) ((set (attr (data) \"last\" (\"token/erc20_token.py\" 231)) (variant \"Some\" (params (\"token/erc20_token.py\" 230)) (\"token/erc20_token.py\" 231)) (\"token/erc20_token.py\" 231)))))\nflags ()\nprivates ()\nviews ()\nentry_points_layout ()\ninitial_metadata ()\nbalance ())",
+    "id": "(static_id 2 (\"token/erc20_token.py\" 347))",
+    "line_no": "(\"token/erc20_token.py\" 347)",
+    "show": true
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 348)",
+    "message": "getBalance",
+    "params": "(tuple (\"token/erc20_token.py\" 348) (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258)) (contract_typed (static_id 2 (\"token/erc20_token.py\" 347)) \"target\" (\"token/erc20_token.py\" 347)))"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (pack (type_annotation (attr (contract_data (static_id 2 (\"token/erc20_token.py\" 347)) (\"token/erc20_token.py\" 347)) \"last\" (\"token/erc20_token.py\" 349)) (unknown 4) (\"token/erc20_token.py\" 349)) (\"token/erc20_token.py\" 349)) (pack (type_annotation (variant \"Some\" (literal (intOrNat 8) (\"token/erc20_token.py\" 349)) (\"token/erc20_token.py\" 349)) (unknown 4) (\"token/erc20_token.py\" 349)) (\"token/erc20_token.py\" 349)) (\"token/erc20_token.py\" 349))",
+    "line_no": "(\"token/erc20_token.py\" 349)"
+   },
+   {
+    "action": "html",
+    "inner": "Administrator",
+    "line_no": "(\"token/erc20_token.py\" 351)",
+    "tag": "h2"
+   },
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 3 (\"token/erc20_token.py\" 353)) \nstorage (record (\"token/erc20_token.py\" 227) (last (variant \"None\" (unit) -1)))\nstorage_type ((record ((last (option \"address\"))) None (\"token/erc20_token.py\" 228)))\nentry_points ((target True None None None True (\"token/erc20_token.py\" 230) ((set (attr (data) \"last\" (\"token/erc20_token.py\" 231)) (variant \"Some\" (params (\"token/erc20_token.py\" 230)) (\"token/erc20_token.py\" 231)) (\"token/erc20_token.py\" 231)))))\nflags ()\nprivates ()\nviews ()\nentry_points_layout ()\ninitial_metadata ()\nbalance ())",
+    "id": "(static_id 3 (\"token/erc20_token.py\" 353))",
+    "line_no": "(\"token/erc20_token.py\" 353)",
+    "show": true
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 354)",
+    "message": "getAdministrator",
+    "params": "(tuple (\"token/erc20_token.py\" 354) (unit) (contract_typed (static_id 3 (\"token/erc20_token.py\" 353)) \"target\" (\"token/erc20_token.py\" 353)))"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (pack (type_annotation (attr (contract_data (static_id 3 (\"token/erc20_token.py\" 353)) (\"token/erc20_token.py\" 353)) \"last\" (\"token/erc20_token.py\" 355)) (unknown 5) (\"token/erc20_token.py\" 355)) (\"token/erc20_token.py\" 355)) (pack (type_annotation (variant \"Some\" (resolve (attr (account_of_seed \"Administrator\" (\"token/erc20_token.py\" 257)) \"address\" (\"token/erc20_token.py\" 257)) (\"token/erc20_token.py\" 257)) (\"token/erc20_token.py\" 355)) (unknown 5) (\"token/erc20_token.py\" 355)) (\"token/erc20_token.py\" 355)) (\"token/erc20_token.py\" 355))",
+    "line_no": "(\"token/erc20_token.py\" 355)"
+   },
+   {
+    "action": "html",
+    "inner": "Total Supply",
+    "line_no": "(\"token/erc20_token.py\" 357)",
+    "tag": "h2"
+   },
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 4 (\"token/erc20_token.py\" 359)) \nstorage (record (\"token/erc20_token.py\" 227) (last (variant \"None\" (unit) -1)))\nstorage_type ((record ((last (option \"nat\"))) None (\"token/erc20_token.py\" 228)))\nentry_points ((target True None None None True (\"token/erc20_token.py\" 230) ((set (attr (data) \"last\" (\"token/erc20_token.py\" 231)) (variant \"Some\" (params (\"token/erc20_token.py\" 230)) (\"token/erc20_token.py\" 231)) (\"token/erc20_token.py\" 231)))))\nflags ()\nprivates ()\nviews ()\nentry_points_layout ()\ninitial_metadata ()\nbalance ())",
+    "id": "(static_id 4 (\"token/erc20_token.py\" 359))",
+    "line_no": "(\"token/erc20_token.py\" 359)",
+    "show": true
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 360)",
+    "message": "getTotalSupply",
+    "params": "(tuple (\"token/erc20_token.py\" 360) (unit) (contract_typed (static_id 4 (\"token/erc20_token.py\" 359)) \"target\" (\"token/erc20_token.py\" 359)))"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (pack (type_annotation (attr (contract_data (static_id 4 (\"token/erc20_token.py\" 359)) (\"token/erc20_token.py\" 359)) \"last\" (\"token/erc20_token.py\" 361)) (unknown 6) (\"token/erc20_token.py\" 361)) (\"token/erc20_token.py\" 361)) (pack (type_annotation (variant \"Some\" (literal (intOrNat 17) (\"token/erc20_token.py\" 361)) (\"token/erc20_token.py\" 361)) (unknown 6) (\"token/erc20_token.py\" 361)) (\"token/erc20_token.py\" 361)) (\"token/erc20_token.py\" 361))",
+    "line_no": "(\"token/erc20_token.py\" 361)"
+   },
+   {
+    "action": "html",
+    "inner": "Allowance",
+    "line_no": "(\"token/erc20_token.py\" 363)",
+    "tag": "h2"
+   },
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 5 (\"token/erc20_token.py\" 365)) \nstorage (record (\"token/erc20_token.py\" 227) (last (variant \"None\" (unit) -1)))\nstorage_type ((record ((last (option \"nat\"))) None (\"token/erc20_token.py\" 228)))\nentry_points ((target True None None None True (\"token/erc20_token.py\" 230) ((set (attr (data) \"last\" (\"token/erc20_token.py\" 231)) (variant \"Some\" (params (\"token/erc20_token.py\" 230)) (\"token/erc20_token.py\" 231)) (\"token/erc20_token.py\" 231)))))\nflags ()\nprivates ()\nviews ()\nentry_points_layout ()\ninitial_metadata ()\nbalance ())",
+    "id": "(static_id 5 (\"token/erc20_token.py\" 365))",
+    "line_no": "(\"token/erc20_token.py\" 365)",
+    "show": true
+   },
+   {
+    "action": "message",
+    "id": "(static_id 0 (\"token/erc20_token.py\" 281))",
+    "line_no": "(\"token/erc20_token.py\" 366)",
+    "message": "getAllowance",
+    "params": "(tuple (\"token/erc20_token.py\" 366) (record (\"token/erc20_token.py\" 366) (owner (resolve (attr (account_of_seed \"Alice\" (\"token/erc20_token.py\" 258)) \"address\" (\"token/erc20_token.py\" 258)) (\"token/erc20_token.py\" 258))) (spender (resolve (attr (account_of_seed \"Robert\" (\"token/erc20_token.py\" 259)) \"address\" (\"token/erc20_token.py\" 259)) (\"token/erc20_token.py\" 259)))) (contract_typed (static_id 5 (\"token/erc20_token.py\" 365)) \"target\" (\"token/erc20_token.py\" 365)))"
+   },
+   {
+    "action": "verify",
+    "condition": "(eq (pack (type_annotation (attr (contract_data (static_id 5 (\"token/erc20_token.py\" 365)) (\"token/erc20_token.py\" 365)) \"last\" (\"token/erc20_token.py\" 367)) (unknown 7) (\"token/erc20_token.py\" 367)) (\"token/erc20_token.py\" 367)) (pack (type_annotation (variant \"Some\" (literal (intOrNat 1) (\"token/erc20_token.py\" 367)) (\"token/erc20_token.py\" 367)) (unknown 7) (\"token/erc20_token.py\" 367)) (\"token/erc20_token.py\" 367)) (\"token/erc20_token.py\" 367))",
+    "line_no": "(\"token/erc20_token.py\" 367)"
+   }
+  ],
+  "kind": "test"
+ },
+ {
+  "shortname": "WenwoToken",
+  "longname": "WenwoToken",
+  "scenario": [
+   {
+    "action": "newContract",
+    "accept_unknown_types": false,
+    "export": "(template_id (static_id 0 (\"\" -1)) \nstorage (record (\"token/erc20_token.py\" 184) (administrator (literal (address \"tz1iJzB6WsHiSd9TJgmQHNXwc4eyRs9GvfJj\") (\"token/erc20_token.py\" 372))) (balances (type_annotation (big_map (\"token/erc20_token.py\" 48) ) (bigmap (unknown 1) (record ((approvals (map \"address\" \"nat\")) (balance \"nat\")) None (\"token/erc20_token.py\" 48))) (\"token/erc20_token.py\" 48))) (metadata (big_map (\"token/erc20_token.py\" 185) ((literal (string \"\") (\"\" -1)) (literal (bytes \"0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664\") (\"token/erc20_token.py\" 39))))) (paused (literal (bool False) (\"token/erc20_token.py\" 47))) (token_metadata (type_annotation (big_map (\"token/erc20_token.py\" 155) ((literal (intOrNat 0) (\"\" -1)) (record (\"token/erc20_token.py\" 157) (token_id (literal (intOrNat 0) (\"token/erc20_token.py\" 157))) (token_info (map (\"token/erc20_token.py\" 157) ((literal (string \"decimals\") (\"\" -1)) (literal (bytes \"0x3138\") (\"token/erc20_token.py\" 39))) ((literal (string \"name\") (\"\" -1)) (literal (bytes \"0x57656e776f546f6b656e\") (\"token/erc20_token.py\" 39))) ((literal (string \"symbol\") (\"\" -1)) (literal (bytes \"0x575754\") (\"token/erc20_token.py\" 39))) ((literal (string \"icon\") (\"\" -1)) (literal (bytes \"0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667\") (\"token/erc20_token.py\" 39)))))))) (bigmap \"nat\" (record ((token_id \"nat\") (token_info (map \"string\" \"bytes\"))) None (\"token/erc20_token.py\" 160))) (\"token/erc20_token.py\" 155))) (totalSupply (literal (intOrNat 0) (\"token/erc20_token.py\" 47))))\nstorage_type (())\nentry_points ((approve True None None None True (\"token/erc20_token.py\" 69) ((set_type (params (\"token/erc20_token.py\" 69)) (record ((spender \"address\") (value \"nat\")) (Some ((\"spender\") (\"value\"))) (\"token/erc20_token.py\" 70)) (\"token/erc20_token.py\" 70)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (verify (not (attr (data) \"paused\" (\"token/erc20_token.py\" 143)) (\"token/erc20_token.py\" 72)) (literal (string \"FA1.2_Paused\") (\"token/erc20_token.py\" 72)) (\"token/erc20_token.py\" 72)) (verify (or (eq (getItemDefault (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 73)) \"approvals\" (\"token/erc20_token.py\" 73)) (attr (params (\"token/erc20_token.py\" 69)) \"spender\" (\"token/erc20_token.py\" 73)) (literal (intOrNat 0) (\"token/erc20_token.py\" 73)) (\"token/erc20_token.py\" 73)) (literal (intOrNat 0) (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (eq (attr (params (\"token/erc20_token.py\" 69)) \"value\" (\"token/erc20_token.py\" 74)) (literal (intOrNat 0) (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (literal (string \"FA1.2_UnsafeAllowanceChange\") (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 74)) (set (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (sender) (\"token/erc20_token.py\" 75)) \"approvals\" (\"token/erc20_token.py\" 75)) (attr (params (\"token/erc20_token.py\" 69)) \"spender\" (\"token/erc20_token.py\" 73)) (\"token/erc20_token.py\" 75)) (attr (params (\"token/erc20_token.py\" 69)) \"value\" (\"token/erc20_token.py\" 74)) (\"token/erc20_token.py\" 75)))) (burn True None None None True (\"token/erc20_token.py\" 117) ((set_type (params (\"token/erc20_token.py\" 117)) (record ((address \"address\") (value \"nat\")) None (\"token/erc20_token.py\" 118)) (\"token/erc20_token.py\" 118)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 119)) (\"token/erc20_token.py\" 119)) (verify (ge (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 117)) \"address\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 120)) \"balance\" (\"token/erc20_token.py\" 120)) (attr (params (\"token/erc20_token.py\" 117)) \"value\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 120)) (literal (string \"FA1.2_InsufficientBalance\") (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 120)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 117)) \"address\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 121)) \"balance\" (\"token/erc20_token.py\" 121)) (openVariant (isNat (sub (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 117)) \"address\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 121)) \"balance\" (\"token/erc20_token.py\" 121)) (attr (params (\"token/erc20_token.py\" 117)) \"value\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 121)) (\"token/erc20_token.py\" 121)) \"Some\" \"None\" (\"token/erc20_token.py\" 121)) (\"token/erc20_token.py\" 121)) (set (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (openVariant (isNat (sub (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (attr (params (\"token/erc20_token.py\" 117)) \"value\" (\"token/erc20_token.py\" 120)) (\"token/erc20_token.py\" 122)) (\"token/erc20_token.py\" 122)) \"Some\" \"None\" (\"token/erc20_token.py\" 122)) (\"token/erc20_token.py\" 122)))) (getAdministrator True None None None True (\"token/erc20_token.py\" 136) ((bind \"__s6\" ((set_type (first (params (\"token/erc20_token.py\" 136)) (\"\" -1)) \"unit\" (\"token/erc20_token.py\" 137)) (result (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 138)))) (set_type (second (params (\"token/erc20_token.py\" 136)) (\"\" -1)) (contract \"address\") (\"\" -1)) (set (operations (\"\" -1)) (cons (transfer (getLocal \"__s6\" (\"\" -1)) (literal (mutez 0) (\"\" -1)) (second (params (\"token/erc20_token.py\" 136)) (\"\" -1)) (\"token/erc20_token.py\" 136)) (operations (\"\" -1)) (\"\" -1)) (\"\" -1)))) (getAllowance True None None None True (\"token/erc20_token.py\" 89) ((bind \"__s7\" ((ifBlock (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (first (params (\"token/erc20_token.py\" 89)) (\"\" -1)) \"owner\" (\"token/erc20_token.py\" 90)) (\"token/erc20_token.py\" 90)) ((result (getItemDefault (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (first (params (\"token/erc20_token.py\" 89)) (\"\" -1)) \"owner\" (\"token/erc20_token.py\" 90)) (\"token/erc20_token.py\" 91)) \"approvals\" (\"token/erc20_token.py\" 91)) (attr (first (params (\"token/erc20_token.py\" 89)) (\"\" -1)) \"spender\" (\"token/erc20_token.py\" 91)) (literal (intOrNat 0) (\"token/erc20_token.py\" 91)) (\"token/erc20_token.py\" 91)) (\"token/erc20_token.py\" 91))) (\"token/erc20_token.py\" 90)) (elseBlock ((result (literal (nat 0) (\"token/erc20_token.py\" 93)) (\"token/erc20_token.py\" 93)))))) (set_type (second (params (\"token/erc20_token.py\" 89)) (\"\" -1)) (contract \"nat\") (\"\" -1)) (set (operations (\"\" -1)) (cons (transfer (getLocal \"__s7\" (\"\" -1)) (literal (mutez 0) (\"\" -1)) (second (params (\"token/erc20_token.py\" 89)) (\"\" -1)) (\"token/erc20_token.py\" 89)) (operations (\"\" -1)) (\"\" -1)) (\"\" -1)))) (getBalance True None None None True (\"token/erc20_token.py\" 82) ((bind \"__s8\" ((ifBlock (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (first (params (\"token/erc20_token.py\" 82)) (\"\" -1)) (\"token/erc20_token.py\" 83)) ((result (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (first (params (\"token/erc20_token.py\" 82)) (\"\" -1)) (\"token/erc20_token.py\" 84)) \"balance\" (\"token/erc20_token.py\" 84)) (\"token/erc20_token.py\" 84))) (\"token/erc20_token.py\" 83)) (elseBlock ((result (literal (nat 0) (\"token/erc20_token.py\" 86)) (\"token/erc20_token.py\" 86)))))) (set_type (second (params (\"token/erc20_token.py\" 82)) (\"\" -1)) (contract \"nat\") (\"\" -1)) (set (operations (\"\" -1)) (cons (transfer (getLocal \"__s8\" (\"\" -1)) (literal (mutez 0) (\"\" -1)) (second (params (\"token/erc20_token.py\" 82)) (\"\" -1)) (\"token/erc20_token.py\" 82)) (operations (\"\" -1)) (\"\" -1)) (\"\" -1)))) (getTotalSupply True None None None True (\"token/erc20_token.py\" 96) ((bind \"__s9\" ((set_type (first (params (\"token/erc20_token.py\" 96)) (\"\" -1)) \"unit\" (\"token/erc20_token.py\" 97)) (result (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (\"token/erc20_token.py\" 98)))) (set_type (second (params (\"token/erc20_token.py\" 96)) (\"\" -1)) (contract \"nat\") (\"\" -1)) (set (operations (\"\" -1)) (cons (transfer (getLocal \"__s9\" (\"\" -1)) (literal (mutez 0) (\"\" -1)) (second (params (\"token/erc20_token.py\" 96)) (\"\" -1)) (\"token/erc20_token.py\" 96)) (operations (\"\" -1)) (\"\" -1)) (\"\" -1)))) (mint True None None None True (\"token/erc20_token.py\" 109) ((set_type (params (\"token/erc20_token.py\" 109)) (record ((address \"address\") (value \"nat\")) None (\"token/erc20_token.py\" 110)) (\"token/erc20_token.py\" 110)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 111)) (\"token/erc20_token.py\" 111)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 113)) \"balance\" (\"token/erc20_token.py\" 113)) (add (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 109)) \"address\" (\"token/erc20_token.py\" 112)) (\"token/erc20_token.py\" 113)) \"balance\" (\"token/erc20_token.py\" 113)) (attr (params (\"token/erc20_token.py\" 109)) \"value\" (\"token/erc20_token.py\" 113)) (\"token/erc20_token.py\" 113)) (\"token/erc20_token.py\" 113)) (set (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (add (attr (data) \"totalSupply\" (\"token/erc20_token.py\" 122)) (attr (params (\"token/erc20_token.py\" 109)) \"value\" (\"token/erc20_token.py\" 113)) (\"token/erc20_token.py\" 114)) (\"token/erc20_token.py\" 114)))) (setAdministrator True None None None True (\"token/erc20_token.py\" 130) ((set_type (params (\"token/erc20_token.py\" 130)) \"address\" (\"token/erc20_token.py\" 131)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 132)) (\"token/erc20_token.py\" 132)) (set (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (params (\"token/erc20_token.py\" 130)) (\"token/erc20_token.py\" 133)))) (setPause True None None None True (\"token/erc20_token.py\" 146) ((set_type (params (\"token/erc20_token.py\" 146)) \"bool\" (\"token/erc20_token.py\" 147)) (verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 148)) (\"token/erc20_token.py\" 148)) (set (attr (data) \"paused\" (\"token/erc20_token.py\" 143)) (params (\"token/erc20_token.py\" 146)) (\"token/erc20_token.py\" 149)))) (transfer True None None None True (\"token/erc20_token.py\" 54) ((set_type (params (\"token/erc20_token.py\" 54)) (record ((from_ \"address\") (to_ \"address\") (value \"nat\")) (Some ((\"from_ as from\") ((\"to_ as to\") (\"value\")))) (\"token/erc20_token.py\" 55)) (\"token/erc20_token.py\" 55)) (verify (or (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (and (not (attr (data) \"paused\" (\"token/erc20_token.py\" 143)) (\"token/erc20_token.py\" 57)) (or (eq (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (sender) (\"token/erc20_token.py\" 58)) (ge (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 59)) \"approvals\" (\"token/erc20_token.py\" 59)) (sender) (\"token/erc20_token.py\" 59)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 57)) (\"token/erc20_token.py\" 56)) (literal (string \"FA1.2_NotAllowed\") (\"token/erc20_token.py\" 56)) (\"token/erc20_token.py\" 56)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (ifBlock (not (contains (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 78)) (\"token/erc20_token.py\" 78)) ((set (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 79)) (record (\"token/erc20_token.py\" 79) (approvals (map (\"token/erc20_token.py\" 79) )) (balance (literal (intOrNat 0) (\"token/erc20_token.py\" 79)))) (\"token/erc20_token.py\" 79))) (\"token/erc20_token.py\" 78)) (verify (ge (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 62)) \"balance\" (\"token/erc20_token.py\" 62)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 62)) (literal (string \"FA1.2_InsufficientBalance\") (\"token/erc20_token.py\" 62)) (\"token/erc20_token.py\" 62)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 63)) \"balance\" (\"token/erc20_token.py\" 63)) (openVariant (isNat (sub (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 63)) \"balance\" (\"token/erc20_token.py\" 63)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 63)) (\"token/erc20_token.py\" 63)) \"Some\" \"None\" (\"token/erc20_token.py\" 63)) (\"token/erc20_token.py\" 63)) (set (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 64)) \"balance\" (\"token/erc20_token.py\" 64)) (add (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"to_\" (\"token/erc20_token.py\" 61)) (\"token/erc20_token.py\" 64)) \"balance\" (\"token/erc20_token.py\" 64)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 64)) (\"token/erc20_token.py\" 64)) (ifBlock (and (neq (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (sender) (\"token/erc20_token.py\" 65)) (not (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 65)) (\"token/erc20_token.py\" 65)) ((set (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 66)) \"approvals\" (\"token/erc20_token.py\" 66)) (sender) (\"token/erc20_token.py\" 66)) (openVariant (isNat (sub (getItem (attr (getItem (attr (data) \"balances\" (\"token/erc20_token.py\" 78)) (attr (params (\"token/erc20_token.py\" 54)) \"from_\" (\"token/erc20_token.py\" 58)) (\"token/erc20_token.py\" 66)) \"approvals\" (\"token/erc20_token.py\" 66)) (sender) (\"token/erc20_token.py\" 66)) (attr (params (\"token/erc20_token.py\" 54)) \"value\" (\"token/erc20_token.py\" 59)) (\"token/erc20_token.py\" 66)) (\"token/erc20_token.py\" 66)) \"Some\" \"None\" (\"token/erc20_token.py\" 66)) (\"token/erc20_token.py\" 66))) (\"token/erc20_token.py\" 65)))) (update_metadata True None None None True (\"token/erc20_token.py\" 192) ((verify (eq (sender) (attr (data) \"administrator\" (\"token/erc20_token.py\" 127)) (\"token/erc20_token.py\" 127)) (literal (string \"FA1.2_NotAdmin\") (\"token/erc20_token.py\" 190)) (\"token/erc20_token.py\" 190)) (set (getItem (attr (data) \"metadata\" (\"token/erc20_token.py\" 191)) (attr (params (\"token/erc20_token.py\" 192)) \"key\" (\"\" -1)) (\"token/erc20_token.py\" 191)) (attr (params (\"token/erc20_token.py\" 192)) \"value\" (\"\" -1)) (\"token/erc20_token.py\" 191)))))\nflags ()\nprivates ()\nviews ((offchain token_metadata True (\"token/erc20_token.py\" 174) True \"Get Token Metadata\" ((set_type (params (\"token/erc20_token.py\" 174)) \"nat\" (\"token/erc20_token.py\" 170)) (result (getItem (attr (data) \"token_metadata\" (\"token/erc20_token.py\" 171)) (params (\"token/erc20_token.py\" 174)) (\"token/erc20_token.py\" 171)) (\"token/erc20_token.py\" 171)))))\nentry_points_layout ()\ninitial_metadata ((metadata (meta_map (\"token/erc20_token.py\" 181) (elem (literal (string \"name\") (\"token/erc20_token.py\" 181)) (meta_expr (literal (string \"SmartPy FA1.2 Token Template\") (\"token/erc20_token.py\" 181)))) (elem (literal (string \"description\") (\"token/erc20_token.py\" 181)) (meta_expr (literal (string \"Example Template for an FA1.2 Contract from SmartPy\") (\"token/erc20_token.py\" 181)))) (elem (literal (string \"authors\") (\"token/erc20_token.py\" 181)) (meta_list (\"token/erc20_token.py\" 181) (meta_expr (literal (string \"SmartPy Dev Team <email@domain.com>\") (\"token/erc20_token.py\" 181))))) (elem (literal (string \"homepage\") (\"token/erc20_token.py\" 181)) (meta_expr (literal (string \"https://smartpy.io\") (\"token/erc20_token.py\" 181)))) (elem (literal (string \"interfaces\") (\"token/erc20_token.py\" 181)) (meta_list (\"token/erc20_token.py\" 181) (meta_expr (literal (string \"TZIP-007-2021-04-17\") (\"token/erc20_token.py\" 181))) (meta_expr (literal (string \"TZIP-016-2021-04-17\") (\"token/erc20_token.py\" 181))))) (elem (literal (string \"views\") (\"token/erc20_token.py\" 181)) (meta_list (\"token/erc20_token.py\" 181) (meta_view \"token_metadata\" (\"token/erc20_token.py\" 174)))))))\nbalance ())",
+    "id": "(static_id 0 (\"\" -1))",
+    "line_no": "(\"\" -1)",
+    "show": true
+   }
+  ],
+  "kind": "compilation"
+ }
+]

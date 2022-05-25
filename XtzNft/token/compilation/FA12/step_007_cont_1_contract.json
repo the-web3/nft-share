@@ -1,0 +1,104 @@
+[
+  {
+    "prim": "storage",
+    "args": [
+      {
+        "prim": "option",
+        "args": [
+          {
+            "prim": "pair",
+            "args": [ { "prim": "nat", "annots": [ "%token_id" ] }, { "prim": "map", "args": [ { "prim": "string" }, { "prim": "bytes" } ], "annots": [ "%token_info" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prim": "parameter",
+    "args": [
+      {
+        "prim": "pair",
+        "args": [
+          {
+            "prim": "pair",
+            "args": [
+              {
+                "prim": "pair",
+                "args": [
+                  { "prim": "address", "annots": [ "%administrator" ] },
+                  {
+                    "prim": "pair",
+                    "args": [
+                      {
+                        "prim": "big_map",
+                        "args": [
+                          { "prim": "address" },
+                          {
+                            "prim": "pair",
+                            "args": [
+                              { "prim": "map", "args": [ { "prim": "address" }, { "prim": "nat" } ], "annots": [ "%approvals" ] },
+                              { "prim": "nat", "annots": [ "%balance" ] }
+                            ]
+                          }
+                        ],
+                        "annots": [ "%balances" ]
+                      },
+                      { "prim": "big_map", "args": [ { "prim": "string" }, { "prim": "bytes" } ], "annots": [ "%metadata" ] }
+                    ]
+                  }
+                ]
+              },
+              {
+                "prim": "pair",
+                "args": [
+                  { "prim": "bool", "annots": [ "%paused" ] },
+                  {
+                    "prim": "pair",
+                    "args": [
+                      {
+                        "prim": "big_map",
+                        "args": [
+                          { "prim": "nat" },
+                          {
+                            "prim": "pair",
+                            "args": [
+                              { "prim": "nat", "annots": [ "%token_id" ] },
+                              { "prim": "map", "args": [ { "prim": "string" }, { "prim": "bytes" } ], "annots": [ "%token_info" ] }
+                            ]
+                          }
+                        ],
+                        "annots": [ "%token_metadata" ]
+                      },
+                      { "prim": "nat", "annots": [ "%totalSupply" ] }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "annots": [ "%data" ]
+          },
+          { "prim": "nat", "annots": [ "%params" ] }
+        ],
+        "annots": [ "%compute" ]
+      }
+    ]
+  },
+  {
+    "prim": "code",
+    "args": [
+      [
+        { "prim": "CAR" },
+        { "prim": "DUP" },
+        { "prim": "CAR" },
+        { "prim": "GET", "args": [ { "int": "5" } ] },
+        { "prim": "SWAP" },
+        { "prim": "CDR" },
+        { "prim": "GET" },
+        { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "171" } ] }, { "prim": "FAILWITH" } ], [] ] },
+        { "prim": "SOME" },
+        { "prim": "NIL", "args": [ { "prim": "operation" } ] },
+        { "prim": "PAIR" }
+      ]
+    ]
+  }
+]

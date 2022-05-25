@@ -1,0 +1,33 @@
+{
+  "name": "SmartPy FA1.2 Token Template",
+  "description": "Example Template for an FA1.2 Contract from SmartPy",
+  "authors": [ "SmartPy Dev Team <email@domain.com>" ],
+  "homepage": "https://smartpy.io",
+  "interfaces": [ "TZIP-007-2021-04-17", "TZIP-016-2021-04-17" ],
+  "views": [
+    {
+      "name": "token_metadata",
+      "pure": true,
+      "description": "Get Token Metadata",
+      "implementations": [
+        {
+          "michelsonStorageView": {
+            "parameter": { "prim": "nat" },
+            "returnType": {
+              "prim": "pair",
+              "args": [ { "prim": "nat", "annots": [ "%token_id" ] }, { "prim": "map", "args": [ { "prim": "string" }, { "prim": "bytes" } ], "annots": [ "%token_info" ] } ]
+            },
+            "code": [
+              { "prim": "UNPAIR" },
+              { "prim": "SWAP" },
+              { "prim": "GET", "args": [ { "int": "5" } ] },
+              { "prim": "SWAP" },
+              { "prim": "GET" },
+              { "prim": "IF_NONE", "args": [ [ { "prim": "PUSH", "args": [ { "prim": "int" }, { "int": "171" } ] }, { "prim": "FAILWITH" } ], [] ] }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

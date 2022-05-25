@@ -1,0 +1,291 @@
+Comment...
+ h1: FA1.2 template - Fungible assets
+Table Of Contents
+
+ FA1.2 template - Fungible assets
+ Accounts
+ Contract
+ Offchain view - token_metadata
+ Attempt to update metadata
+ Entry points
+# Admin mints a few coins
+# Alice transfers to Bob
+# Bob tries to transfer from Alice but he doesn't have her approval
+# Alice approves Bob and Bob transfers
+# Bob tries to over-transfer from Alice
+# Admin burns Bob token
+# Alice tries to burn Bob token
+# Admin pauses the contract and Alice cannot transfer anymore
+# Admin transfers while on pause
+# Admin unpauses the contract and transfers are allowed
+ Views
+# Balance
+# Administrator
+# Total Supply
+# Allowance
+Comment...
+ h1: Accounts
+Computing sp.list([sp.test_account("Administrator"), sp.test_account("Alice"), sp.test_account("Robert")])...
+ => [sp.record(seed = 'Administrator', address = sp.address('tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w'), public_key = sp.key('edpktzrjdb1tx6dQecQGZL6CwhujWg1D2CXfXWBriqtJSA6kvqMwA2'), public_key_hash = sp.key_hash('tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w'), secret_key = sp.secret_key('edskRqFp3Z9AqoKrMNFb9bnWNwEsRzbjqjBhzmFMLF9UqB6VBmw7F8ppTiXaAnHtysmi6xFxoHf6rMUz6Y1ipiDz2EgwZQv3pa')), sp.record(seed = 'Alice', address = sp.address('tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi'), public_key = sp.key('edpkuvNy6TuQ2z8o9wnoaTtTXkzQk7nhegCHfxBc4ecsd4qG71KYNG'), public_key_hash = sp.key_hash('tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi'), secret_key = sp.secret_key('edskRijgcXx8gzqkq7SCBbrb6aDZQMmP6dznCQWgU1Jr4qPfJT1yFq5A39ja9G4wahS8uWtBurZy14Hy7GZkQh7WnopJTKtCQG')), sp.record(seed = 'Robert', address = sp.address('tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP'), public_key = sp.key('edpkvThfdv8Efh1MuqSTUk5EnUFCTjqN6kXDCNXpQ8udN3cKRhNDr2'), public_key_hash = sp.key_hash('tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP'), secret_key = sp.secret_key('edskRiaffUWqB9zgaEhuX6EmejbLzk2xcpSEXLv3G4cDfcbY75c71ASyGnFHXuaTAVMPt2bJLGGye1gm24oBmAc2k5VDHHo5Ua'))]
+Comment...
+ h1: Contract
+Creating contract KT1TezoooozzSmartPyzzSTATiCzzzwwBFA1
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {} {Elt "" 0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 0)))
+ => token/compilation/FA12/step_005_cont_0_storage.tz 1
+ => token/compilation/FA12/step_005_cont_0_storage.json 55
+ => token/compilation/FA12/step_005_cont_0_sizes.csv 2
+ => token/compilation/FA12/step_005_cont_0_storage.py 1
+ => token/compilation/FA12/step_005_cont_0_types.py 7
+ => token/compilation/FA12/step_005_cont_0_metadata.metadata.json 33
+ => token/compilation/FA12/step_005_cont_0_contract.tz 886
+ => token/compilation/FA12/step_005_cont_0_contract.json 936
+ => token/compilation/FA12/step_005_cont_0_contract.py 106
+Comment...
+ h1: Offchain view - token_metadata
+Creating contract KT1Tezooo1zzSmartPyzzSTATiCzzzyfC8eF
+ -> None
+ => token/compilation/FA12/step_007_cont_1_storage.tz 1
+ => token/compilation/FA12/step_007_cont_1_storage.json 1
+ => token/compilation/FA12/step_007_cont_1_sizes.csv 2
+ => token/compilation/FA12/step_007_cont_1_storage.py 1
+ => token/compilation/FA12/step_007_cont_1_types.py 7
+ => token/compilation/FA12/step_007_cont_1_contract.tz 24
+ => token/compilation/FA12/step_007_cont_1_contract.json 104
+ => token/compilation/FA12/step_007_cont_1_contract.py 14
+ => token/compilation/FA12/step_008_cont_1_params.py 1
+ => token/compilation/FA12/step_008_cont_1_params.tz 1
+ => token/compilation/FA12/step_008_cont_1_params.json 64
+Executing compute(sp.record(data = sp.contract_data(0), params = 0))...
+ -> (Some (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754}))
+Verifying sp.pack(sp.set_type_expr(sp.contract_data(1).result, sp.TOption(sp.TRecord(token_id = sp.TNat, token_info = sp.TMap(sp.TString, sp.TBytes)).layout(("token_id", "token_info"))))) == sp.pack(sp.set_type_expr(sp.some(sp.record(token_id = 0, token_info = {'decimals' : sp.bytes('0x3138'), 'name' : sp.bytes('0x4d7920477265617420546f6b656e'), 'symbol' : sp.bytes('0x4d4754'), 'icon' : sp.bytes('0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667')})), sp.TOption(sp.TRecord(token_id = sp.TNat, token_info = sp.TMap(sp.TString, sp.TBytes)).layout(("token_id", "token_info")))))...
+ OK
+Comment...
+ h1: Attempt to update metadata
+Verifying sp.contract_data(0).metadata[''] == sp.bytes('0x697066733a2f2f516d616941556a3146464e4759547538724c426a633365654e3963534b7761463845474d424e446d687a504e4664')...
+ OK
+ => token/compilation/FA12/step_012_cont_0_params.py 1
+ => token/compilation/FA12/step_012_cont_0_params.tz 1
+ => token/compilation/FA12/step_012_cont_0_params.json 1
+Executing update_metadata(sp.record(key = '', value = sp.bytes('0x00')))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 0)))
+Verifying sp.contract_data(0).metadata[''] == sp.bytes('0x00')...
+ OK
+Comment...
+ h1: Entry points
+Comment...
+ h2: Admin mints a few coins
+ => token/compilation/FA12/step_016_cont_0_params.py 1
+ => token/compilation/FA12/step_016_cont_0_params.tz 1
+ => token/compilation/FA12/step_016_cont_0_params.json 1
+Executing mint(sp.record(address = sp.resolve(sp.test_account("Alice").address), value = 12))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {} 12)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 12)))
+ => token/compilation/FA12/step_017_cont_0_params.py 1
+ => token/compilation/FA12/step_017_cont_0_params.tz 1
+ => token/compilation/FA12/step_017_cont_0_params.json 1
+Executing mint(sp.record(address = sp.resolve(sp.test_account("Alice").address), value = 3))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {} 15)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 15)))
+ => token/compilation/FA12/step_018_cont_0_params.py 1
+ => token/compilation/FA12/step_018_cont_0_params.tz 1
+ => token/compilation/FA12/step_018_cont_0_params.json 1
+Executing mint(sp.record(address = sp.resolve(sp.test_account("Alice").address), value = 3))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {} 18)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 18)))
+Comment...
+ h2: Alice transfers to Bob
+ => token/compilation/FA12/step_020_cont_0_params.py 1
+ => token/compilation/FA12/step_020_cont_0_params.tz 1
+ => token/compilation/FA12/step_020_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 4))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 4); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {} 14)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 18)))
+Verifying sp.contract_data(0).balances[sp.resolve(sp.test_account("Alice").address)].balance == 14...
+ OK
+Comment...
+ h2: Bob tries to transfer from Alice but he doesn't have her approval
+ => token/compilation/FA12/step_023_cont_0_params.py 1
+ => token/compilation/FA12/step_023_cont_0_params.tz 1
+ => token/compilation/FA12/step_023_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 4))...
+ -> --- Expected failure in transaction --- Missing item in map: sp.address('tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP') is not in {} while evaluating self.data.balances[params.from_].approvals[sp.sender]
+Comment...
+ h2: Alice approves Bob and Bob transfers
+ => token/compilation/FA12/step_025_cont_0_params.py 1
+ => token/compilation/FA12/step_025_cont_0_params.tz 1
+ => token/compilation/FA12/step_025_cont_0_params.json 1
+Executing approve(sp.record(spender = sp.resolve(sp.test_account("Robert").address), value = 5))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 4); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 5} 14)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 18)))
+ => token/compilation/FA12/step_026_cont_0_params.py 1
+ => token/compilation/FA12/step_026_cont_0_params.tz 1
+ => token/compilation/FA12/step_026_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 4))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 8); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 10)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 18)))
+Comment...
+ h2: Bob tries to over-transfer from Alice
+ => token/compilation/FA12/step_028_cont_0_params.py 1
+ => token/compilation/FA12/step_028_cont_0_params.tz 1
+ => token/compilation/FA12/step_028_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 4))...
+ -> --- Expected failure in transaction --- Wrong condition: ((sp.sender == self.data.administrator) | ((~ self.data.paused) & ((params.from_ == sp.sender) | (self.data.balances[params.from_].approvals[sp.sender] >= params.value))) : sp.TBool) (token/erc20_token.py, line 56)
+Message: 'FA1.2_NotAllowed'
+ (token/erc20_token.py, line 56)
+Comment...
+ h2: Admin burns Bob token
+ => token/compilation/FA12/step_030_cont_0_params.py 1
+ => token/compilation/FA12/step_030_cont_0_params.tz 1
+ => token/compilation/FA12/step_030_cont_0_params.json 1
+Executing burn(sp.record(address = sp.resolve(sp.test_account("Robert").address), value = 1))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 7); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 10)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+Verifying sp.contract_data(0).balances[sp.resolve(sp.test_account("Alice").address)].balance == 10...
+ OK
+Comment...
+ h2: Alice tries to burn Bob token
+ => token/compilation/FA12/step_033_cont_0_params.py 1
+ => token/compilation/FA12/step_033_cont_0_params.tz 1
+ => token/compilation/FA12/step_033_cont_0_params.json 1
+Executing burn(sp.record(address = sp.resolve(sp.test_account("Robert").address), value = 1))...
+ -> --- Expected failure in transaction --- Wrong condition: (sp.sender == self.data.administrator : sp.TBool) (token/erc20_token.py, line 127)
+Message: 'FA1.2_NotAdmin'
+ (token/erc20_token.py, line 119)
+Comment...
+ h2: Admin pauses the contract and Alice cannot transfer anymore
+ => token/compilation/FA12/step_035_cont_0_params.py 1
+ => token/compilation/FA12/step_035_cont_0_params.tz 1
+ => token/compilation/FA12/step_035_cont_0_params.json 1
+Executing setPause(True)...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 7); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 10)} {Elt "" 0x00})) (Pair True (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+ => token/compilation/FA12/step_036_cont_0_params.py 1
+ => token/compilation/FA12/step_036_cont_0_params.tz 1
+ => token/compilation/FA12/step_036_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 4))...
+ -> --- Expected failure in transaction --- Wrong condition: ((sp.sender == self.data.administrator) | ((~ self.data.paused) & ((params.from_ == sp.sender) | (self.data.balances[params.from_].approvals[sp.sender] >= params.value))) : sp.TBool) (token/erc20_token.py, line 56)
+Message: 'FA1.2_NotAllowed'
+ (token/erc20_token.py, line 56)
+Verifying sp.contract_data(0).balances[sp.resolve(sp.test_account("Alice").address)].balance == 10...
+ OK
+Comment...
+ h2: Admin transfers while on pause
+ => token/compilation/FA12/step_039_cont_0_params.py 1
+ => token/compilation/FA12/step_039_cont_0_params.tz 1
+ => token/compilation/FA12/step_039_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 1))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 8); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 9)} {Elt "" 0x00})) (Pair True (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+Comment...
+ h2: Admin unpauses the contract and transfers are allowed
+ => token/compilation/FA12/step_041_cont_0_params.py 1
+ => token/compilation/FA12/step_041_cont_0_params.tz 1
+ => token/compilation/FA12/step_041_cont_0_params.json 1
+Executing setPause(False)...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 8); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 9)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+Verifying sp.contract_data(0).balances[sp.resolve(sp.test_account("Alice").address)].balance == 9...
+ OK
+ => token/compilation/FA12/step_043_cont_0_params.py 1
+ => token/compilation/FA12/step_043_cont_0_params.tz 1
+ => token/compilation/FA12/step_043_cont_0_params.json 4
+Executing transfer(sp.record(from_ = sp.resolve(sp.test_account("Alice").address), to_ = sp.resolve(sp.test_account("Robert").address), value = 1))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 9); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 8)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+Verifying sp.contract_data(0).totalSupply == 17...
+ OK
+Verifying sp.contract_data(0).balances[sp.resolve(sp.test_account("Alice").address)].balance == 8...
+ OK
+Verifying sp.contract_data(0).balances[sp.resolve(sp.test_account("Robert").address)].balance == 9...
+ OK
+Comment...
+ h1: Views
+Comment...
+ h2: Balance
+Creating contract KT1Tezooo2zzSmartPyzzSTATiCzzzwqqQ4H
+ -> None
+ => token/compilation/FA12/step_049_cont_2_storage.tz 1
+ => token/compilation/FA12/step_049_cont_2_storage.json 1
+ => token/compilation/FA12/step_049_cont_2_sizes.csv 2
+ => token/compilation/FA12/step_049_cont_2_storage.py 1
+ => token/compilation/FA12/step_049_cont_2_types.py 7
+ => token/compilation/FA12/step_049_cont_2_contract.tz 11
+ => token/compilation/FA12/step_049_cont_2_contract.json 5
+ => token/compilation/FA12/step_049_cont_2_contract.py 12
+ => token/compilation/FA12/step_050_cont_0_params.py 1
+ => token/compilation/FA12/step_050_cont_0_params.tz 1
+ => token/compilation/FA12/step_050_cont_0_params.json 1
+Executing getBalance((sp.resolve(sp.test_account("Alice").address), sp.contract_typed(KT1Tezooo2zzSmartPyzzSTATiCzzzwqqQ4H%target)))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 9); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 8)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+  + Transfer
+     params: 8
+     amount: sp.tez(0)
+     to:     sp.contract(sp.TNat, sp.address('KT1Tezooo2zzSmartPyzzSTATiCzzzwqqQ4H%target')).open_some()
+Executing (queue) target(8)...
+ -> (Some 8)
+Verifying sp.pack(sp.set_type_expr(sp.contract_data(2).last, sp.TOption(sp.TNat))) == sp.pack(sp.set_type_expr(sp.some(8), sp.TOption(sp.TNat)))...
+ OK
+Comment...
+ h2: Administrator
+Creating contract KT1Tezooo3zzSmartPyzzSTATiCzzzseJjWC
+ -> None
+ => token/compilation/FA12/step_053_cont_3_storage.tz 1
+ => token/compilation/FA12/step_053_cont_3_storage.json 1
+ => token/compilation/FA12/step_053_cont_3_sizes.csv 2
+ => token/compilation/FA12/step_053_cont_3_storage.py 1
+ => token/compilation/FA12/step_053_cont_3_types.py 7
+ => token/compilation/FA12/step_053_cont_3_contract.tz 11
+ => token/compilation/FA12/step_053_cont_3_contract.json 5
+ => token/compilation/FA12/step_053_cont_3_contract.py 12
+ => token/compilation/FA12/step_054_cont_0_params.py 1
+ => token/compilation/FA12/step_054_cont_0_params.tz 1
+ => token/compilation/FA12/step_054_cont_0_params.json 1
+Executing getAdministrator((sp.unit, sp.contract_typed(KT1Tezooo3zzSmartPyzzSTATiCzzzseJjWC%target)))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 9); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 8)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+  + Transfer
+     params: sp.address('tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w')
+     amount: sp.tez(0)
+     to:     sp.contract(sp.TAddress, sp.address('KT1Tezooo3zzSmartPyzzSTATiCzzzseJjWC%target')).open_some()
+Executing (queue) target(sp.address('tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w'))...
+ -> (Some "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w")
+Verifying sp.pack(sp.set_type_expr(sp.contract_data(3).last, sp.TOption(sp.TAddress))) == sp.pack(sp.set_type_expr(sp.some(sp.resolve(sp.test_account("Administrator").address)), sp.TOption(sp.TAddress)))...
+ OK
+Comment...
+ h2: Total Supply
+Creating contract KT1Tezooo4zzSmartPyzzSTATiCzzzyPVdv3
+ -> None
+ => token/compilation/FA12/step_057_cont_4_storage.tz 1
+ => token/compilation/FA12/step_057_cont_4_storage.json 1
+ => token/compilation/FA12/step_057_cont_4_sizes.csv 2
+ => token/compilation/FA12/step_057_cont_4_storage.py 1
+ => token/compilation/FA12/step_057_cont_4_types.py 7
+ => token/compilation/FA12/step_057_cont_4_contract.tz 11
+ => token/compilation/FA12/step_057_cont_4_contract.json 5
+ => token/compilation/FA12/step_057_cont_4_contract.py 12
+ => token/compilation/FA12/step_058_cont_0_params.py 1
+ => token/compilation/FA12/step_058_cont_0_params.tz 1
+ => token/compilation/FA12/step_058_cont_0_params.json 1
+Executing getTotalSupply((sp.unit, sp.contract_typed(KT1Tezooo4zzSmartPyzzSTATiCzzzyPVdv3%target)))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 9); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 8)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+  + Transfer
+     params: 17
+     amount: sp.tez(0)
+     to:     sp.contract(sp.TNat, sp.address('KT1Tezooo4zzSmartPyzzSTATiCzzzyPVdv3%target')).open_some()
+Executing (queue) target(17)...
+ -> (Some 17)
+Verifying sp.pack(sp.set_type_expr(sp.contract_data(4).last, sp.TOption(sp.TNat))) == sp.pack(sp.set_type_expr(sp.some(17), sp.TOption(sp.TNat)))...
+ OK
+Comment...
+ h2: Allowance
+Creating contract KT1Tezooo5zzSmartPyzzSTATiCzzzz48Z4p
+ -> None
+ => token/compilation/FA12/step_061_cont_5_storage.tz 1
+ => token/compilation/FA12/step_061_cont_5_storage.json 1
+ => token/compilation/FA12/step_061_cont_5_sizes.csv 2
+ => token/compilation/FA12/step_061_cont_5_storage.py 1
+ => token/compilation/FA12/step_061_cont_5_types.py 7
+ => token/compilation/FA12/step_061_cont_5_contract.tz 11
+ => token/compilation/FA12/step_061_cont_5_contract.json 5
+ => token/compilation/FA12/step_061_cont_5_contract.py 12
+ => token/compilation/FA12/step_062_cont_0_params.py 1
+ => token/compilation/FA12/step_062_cont_0_params.tz 1
+ => token/compilation/FA12/step_062_cont_0_params.json 7
+Executing getAllowance((sp.record(owner = sp.resolve(sp.test_account("Alice").address), spender = sp.resolve(sp.test_account("Robert").address)), sp.contract_typed(KT1Tezooo5zzSmartPyzzSTATiCzzzz48Z4p%target)))...
+ -> (Pair (Pair "tz1hdQscorfqMzFqYxnrApuS5i6QSTuoAp3w" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" (Pair {} 9); Elt "tz1WxrQuZ4CK1MBUa2GqUWK1yJ4J6EtG1Gwi" (Pair {Elt "tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP" 1} 8)} {Elt "" 0x00})) (Pair False (Pair {Elt 0 (Pair 0 {Elt "decimals" 0x3138; Elt "icon" 0x68747470733a2f2f736d61727470792e696f2f7374617469632f696d672f6c6f676f2d6f6e6c792e737667; Elt "name" 0x4d7920477265617420546f6b656e; Elt "symbol" 0x4d4754})} 17)))
+  + Transfer
+     params: 1
+     amount: sp.tez(0)
+     to:     sp.contract(sp.TNat, sp.address('KT1Tezooo5zzSmartPyzzSTATiCzzzz48Z4p%target')).open_some()
+Executing (queue) target(1)...
+ -> (Some 1)
+Verifying sp.pack(sp.set_type_expr(sp.contract_data(5).last, sp.TOption(sp.TNat))) == sp.pack(sp.set_type_expr(sp.some(1), sp.TOption(sp.TNat)))...
+ OK

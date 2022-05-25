@@ -1,0 +1,886 @@
+parameter (or (or (or (pair %approve (address %spender) (nat %value)) (pair %burn (address %address) (nat %value))) (or (pair %getAdministrator unit (contract address)) (or (pair %getAllowance (pair (address %owner) (address %spender)) (contract nat)) (pair %getBalance address (contract nat))))) (or (or (pair %getTotalSupply unit (contract nat)) (or (pair %mint (address %address) (nat %value)) (address %setAdministrator))) (or (bool %setPause) (or (pair %transfer (address %from) (pair (address %to) (nat %value))) (pair %update_metadata (string %key) (bytes %value))))));
+storage   (pair (pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))));
+code
+  {
+    UNPAIR;     # @parameter : @storage
+    IF_LEFT
+      {
+        IF_LEFT
+          {
+            IF_LEFT
+              {
+                SWAP;       # @storage : @parameter%approve
+                # == approve ==
+                # if ~ (self.data.balances.contains(sp.sender)): # @storage : @parameter%approve
+                DUP;        # @storage : @storage : @parameter%approve
+                DUG 2;      # @storage : @parameter%approve : @storage
+                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%approve : @storage
+                GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%approve : @storage
+                SENDER;     # @sender : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%approve : @storage
+                MEM;        # bool : @parameter%approve : @storage
+                IF
+                  {}
+                  {
+                    SWAP;       # @storage : @parameter%approve
+                    # self.data.balances[sp.sender] = sp.record(approvals = {}, balance = 0) # @storage : @parameter%approve
+                    UNPAIR;     # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    UNPAIR;     # address : pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    SWAP;       # pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    UNPAIR;     # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    PUSH (option (pair (map address nat) nat)) (Some (Pair {} 0)); # option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    SENDER;     # @sender : option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve
+                    SWAP;       # @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }; # @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve
+                # sp.verify(~ self.data.paused, 'FA1.2_Paused') # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve
+                DUP;        # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve
+                DUG 2;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                GET 3;      # bool : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                IF
+                  {
+                    PUSH string "FA1.2_Paused"; # string : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                # sp.verify((self.data.balances[sp.sender].approvals.get(params.spender, default_value = 0) == 0) | (params.value == 0), 'FA1.2_UnsafeAllowanceChange') # @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                PUSH nat 0; # nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                DUP 3;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                CAR;        # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                GET 3;      # big_map address (pair (map address nat) nat) : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                SENDER;     # @sender : big_map address (pair (map address nat) nat) : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                GET;        # option (pair (map address nat) nat) : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                IF_NONE
+                  {
+                    PUSH int 73; # int : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                CAR;        # map address nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                DUP 3;      # @parameter%approve : map address nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                CAR;        # address : map address nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                GET;        # option nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                IF_NONE
+                  {
+                    PUSH nat 0; # nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }
+                  {}; # nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                COMPARE;    # int : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                EQ;         # bool : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                IF
+                  {
+                    PUSH bool True; # bool : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }
+                  {
+                    DUP;        # @parameter%approve : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CDR;        # nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    PUSH nat 0; # nat : nat : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    COMPARE;    # int : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    EQ;         # bool : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }; # bool : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                IF
+                  {}
+                  {
+                    PUSH string "FA1.2_UnsafeAllowanceChange"; # string : @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    FAILWITH;   # FAILED
+                  }; # @parameter%approve : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve
+                # self.data.balances[sp.sender].approvals[params.spender] = params.value # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%approve
+                UNPAIR;     # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                UNPAIR;     # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                SWAP;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                UNPAIR;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                DUP;        # big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                SENDER;     # @sender : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                DUP;        # @sender : @sender : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                DUG 2;      # @sender : big_map address (pair (map address nat) nat) : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                GET;        # option (pair (map address nat) nat) : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                IF_NONE
+                  {
+                    PUSH int 75; # int : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                DUP;        # @some : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                CAR;        # map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                DUP 8;      # @parameter%approve : map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                CDR;        # nat : map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                SOME;       # option nat : map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%approve
+                DIG 8;      # @parameter%approve : option nat : map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                CAR;        # address : option nat : map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                UPDATE;     # map address nat : @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                UPDATE 1;   # @some : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                SOME;       # option (pair (map address nat) nat) : @sender : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                SWAP;       # @sender : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+              }
+              {
+                SWAP;       # @storage : @parameter%burn
+                # == burn ==
+                # sp.verify(sp.sender == self.data.administrator, 'FA1.2_NotAdmin') # @storage : @parameter%burn
+                DUP;        # @storage : @storage : @parameter%burn
+                DUG 2;      # @storage : @parameter%burn : @storage
+                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%burn : @storage
+                CAR;        # address : @parameter%burn : @storage
+                SENDER;     # @sender : address : @parameter%burn : @storage
+                COMPARE;    # int : @parameter%burn : @storage
+                EQ;         # bool : @parameter%burn : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "FA1.2_NotAdmin"; # string : @parameter%burn : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%burn : @storage
+                # sp.verify(self.data.balances[params.address].balance >= params.value, 'FA1.2_InsufficientBalance') # @parameter%burn : @storage
+                DUP;        # @parameter%burn : @parameter%burn : @storage
+                CDR;        # nat : @parameter%burn : @storage
+                DUP 3;      # @storage : nat : @parameter%burn : @storage
+                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : nat : @parameter%burn : @storage
+                GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%burn : @storage
+                DUP 3;      # @parameter%burn : big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%burn : @storage
+                CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%burn : @storage
+                GET;        # option (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%burn : @storage
+                IF_NONE
+                  {
+                    PUSH int 120; # int : nat : @parameter%burn : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : nat : @parameter%burn : @storage
+                CDR;        # nat : nat : @parameter%burn : @storage
+                COMPARE;    # int : @parameter%burn : @storage
+                GE;         # bool : @parameter%burn : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "FA1.2_InsufficientBalance"; # string : @parameter%burn : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%burn : @storage
+                SWAP;       # @storage : @parameter%burn
+                # self.data.balances[params.address].balance = sp.as_nat(self.data.balances[params.address].balance - params.value) # @storage : @parameter%burn
+                DUP;        # @storage : @storage : @parameter%burn
+                DUG 2;      # @storage : @parameter%burn : @storage
+                UNPAIR;     # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                UNPAIR;     # address : pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                SWAP;       # pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                UNPAIR;     # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                DUP;        # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                DUP 6;      # @parameter%burn : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                DUP;        # address : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                DUG 2;      # address : big_map address (pair (map %approvals address nat) (nat %balance)) : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                GET;        # option (pair (map %approvals address nat) (nat %balance)) : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                IF_NONE
+                  {
+                    PUSH int 121; # int : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                DUP 7;      # @parameter%burn : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                CDR;        # nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn : @storage
+                DIG 8;      # @storage : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                DUP 9;      # @parameter%burn : big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                GET;        # option (pair (map %approvals address nat) (nat %balance)) : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                IF_NONE
+                  {
+                    PUSH int 121; # int : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                CDR;        # nat : nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                SUB;        # int : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                ISNAT;      # option nat : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                IF_NONE
+                  {
+                    PUSH int 121; # int : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                UPDATE 2;   # @some : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                SOME;       # option (pair (map %approvals address nat) (nat %balance)) : address : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                SWAP;       # address : option (pair (map %approvals address nat) (nat %balance)) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                UPDATE;     # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                PAIR;       # pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                SWAP;       # address : pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                PAIR;       # pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%burn
+                PAIR;       # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%burn
+                # self.data.totalSupply = sp.as_nat(self.data.totalSupply - params.value) # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%burn
+                DUP;        # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%burn
+                DUG 2;      # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%burn : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                SWAP;       # @parameter%burn : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                CDR;        # nat : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                DIG 2;      # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : nat : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                GET 6;      # nat : nat : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                SUB;        # int : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                ISNAT;      # option nat : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                IF_NONE
+                  {
+                    PUSH int 122; # int : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                UPDATE 6;   # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+              }; # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+            NIL operation; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+          }
+          {
+            IF_LEFT
+              {
+                SWAP;       # @storage : @parameter%getAdministrator
+                # == getAdministrator ==
+                # sp.result(self.data.administrator) # @storage : @parameter%getAdministrator
+                DUP;        # @storage : @storage : @parameter%getAdministrator
+                DUG 2;      # @storage : @parameter%getAdministrator : @storage
+                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%getAdministrator : @storage
+                CAR;        # address : @parameter%getAdministrator : @storage
+                # sp.transfer(__s1.value, sp.tez(0), sp.snd(params)) # address : @parameter%getAdministrator : @storage
+                NIL operation; # list operation : address : @parameter%getAdministrator : @storage
+                DIG 2;      # @parameter%getAdministrator : list operation : address : @storage
+                CDR;        # contract address : list operation : address : @storage
+                PUSH mutez 0; # mutez : contract address : list operation : address : @storage
+                DIG 3;      # address : mutez : contract address : list operation : @storage
+                TRANSFER_TOKENS; # operation : list operation : @storage
+                CONS;       # list operation : @storage
+              }
+              {
+                IF_LEFT
+                  {
+                    SWAP;       # @storage : @parameter%getAllowance
+                    # == getAllowance ==
+                    # if self.data.balances.contains(sp.fst(params).owner): # @storage : @parameter%getAllowance
+                    DUP;        # @storage : @storage : @parameter%getAllowance
+                    DUG 2;      # @storage : @parameter%getAllowance : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%getAllowance : @storage
+                    GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                    SWAP;       # @parameter%getAllowance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUP;        # @parameter%getAllowance : @parameter%getAllowance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUG 2;      # @parameter%getAllowance : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                    CAR;        # pair (address %owner) (address %spender) : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                    CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                    MEM;        # bool : @parameter%getAllowance : @storage
+                    IF
+                      {
+                        SWAP;       # @storage : @parameter%getAllowance
+                        # sp.result(self.data.balances[sp.fst(params).owner].approvals.get(sp.fst(params).spender, default_value = 0)) # @storage : @parameter%getAllowance
+                        DUP;        # @storage : @storage : @parameter%getAllowance
+                        DUG 2;      # @storage : @parameter%getAllowance : @storage
+                        CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%getAllowance : @storage
+                        GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                        SWAP;       # @parameter%getAllowance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                        DUP;        # @parameter%getAllowance : @parameter%getAllowance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                        DUG 2;      # @parameter%getAllowance : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                        CAR;        # pair (address %owner) (address %spender) : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                        CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                        GET;        # option (pair (map %approvals address nat) (nat %balance)) : @parameter%getAllowance : @storage
+                        IF_NONE
+                          {
+                            PUSH int 91; # int : @parameter%getAllowance : @storage
+                            FAILWITH;   # FAILED
+                          }
+                          {}; # @some : @parameter%getAllowance : @storage
+                        CAR;        # map address nat : @parameter%getAllowance : @storage
+                        SWAP;       # @parameter%getAllowance : map address nat : @storage
+                        DUP;        # @parameter%getAllowance : @parameter%getAllowance : map address nat : @storage
+                        DUG 2;      # @parameter%getAllowance : map address nat : @parameter%getAllowance : @storage
+                        CAR;        # pair (address %owner) (address %spender) : map address nat : @parameter%getAllowance : @storage
+                        CDR;        # address : map address nat : @parameter%getAllowance : @storage
+                        GET;        # option nat : @parameter%getAllowance : @storage
+                        IF_NONE
+                          {
+                            PUSH nat 0; # nat : @parameter%getAllowance : @storage
+                          }
+                          {}; # nat : @parameter%getAllowance : @storage
+                      }
+                      {
+                        # sp.result(0) # @parameter%getAllowance : @storage
+                        PUSH nat 0; # nat : @parameter%getAllowance : @storage
+                      }; # nat : @parameter%getAllowance : @storage
+                    # sp.transfer(__s2.value, sp.tez(0), sp.snd(params)) # nat : @parameter%getAllowance : @storage
+                    NIL operation; # list operation : nat : @parameter%getAllowance : @storage
+                    DIG 2;      # @parameter%getAllowance : list operation : nat : @storage
+                    CDR;        # contract nat : list operation : nat : @storage
+                    PUSH mutez 0; # mutez : contract nat : list operation : nat : @storage
+                    DIG 3;      # nat : mutez : contract nat : list operation : @storage
+                    TRANSFER_TOKENS; # operation : list operation : @storage
+                    CONS;       # list operation : @storage
+                  }
+                  {
+                    SWAP;       # @storage : @parameter%getBalance
+                    # == getBalance ==
+                    # if self.data.balances.contains(sp.fst(params)): # @storage : @parameter%getBalance
+                    DUP;        # @storage : @storage : @parameter%getBalance
+                    DUG 2;      # @storage : @parameter%getBalance : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%getBalance : @storage
+                    GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                    SWAP;       # @parameter%getBalance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUP;        # @parameter%getBalance : @parameter%getBalance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUG 2;      # @parameter%getBalance : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                    CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                    MEM;        # bool : @parameter%getBalance : @storage
+                    IF
+                      {
+                        SWAP;       # @storage : @parameter%getBalance
+                        # sp.result(self.data.balances[sp.fst(params)].balance) # @storage : @parameter%getBalance
+                        DUP;        # @storage : @storage : @parameter%getBalance
+                        DUG 2;      # @storage : @parameter%getBalance : @storage
+                        CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%getBalance : @storage
+                        GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                        SWAP;       # @parameter%getBalance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                        DUP;        # @parameter%getBalance : @parameter%getBalance : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                        DUG 2;      # @parameter%getBalance : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                        CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                        GET;        # option (pair (map %approvals address nat) (nat %balance)) : @parameter%getBalance : @storage
+                        IF_NONE
+                          {
+                            PUSH int 84; # int : @parameter%getBalance : @storage
+                            FAILWITH;   # FAILED
+                          }
+                          {}; # @some : @parameter%getBalance : @storage
+                        CDR;        # nat : @parameter%getBalance : @storage
+                      }
+                      {
+                        # sp.result(0) # @parameter%getBalance : @storage
+                        PUSH nat 0; # nat : @parameter%getBalance : @storage
+                      }; # nat : @parameter%getBalance : @storage
+                    # sp.transfer(__s3.value, sp.tez(0), sp.snd(params)) # nat : @parameter%getBalance : @storage
+                    NIL operation; # list operation : nat : @parameter%getBalance : @storage
+                    DIG 2;      # @parameter%getBalance : list operation : nat : @storage
+                    CDR;        # contract nat : list operation : nat : @storage
+                    PUSH mutez 0; # mutez : contract nat : list operation : nat : @storage
+                    DIG 3;      # nat : mutez : contract nat : list operation : @storage
+                    TRANSFER_TOKENS; # operation : list operation : @storage
+                    CONS;       # list operation : @storage
+                  }; # list operation : @storage
+              }; # list operation : @storage
+          }; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+      }
+      {
+        IF_LEFT
+          {
+            IF_LEFT
+              {
+                SWAP;       # @storage : @parameter%getTotalSupply
+                # == getTotalSupply ==
+                # sp.result(self.data.totalSupply) # @storage : @parameter%getTotalSupply
+                DUP;        # @storage : @storage : @parameter%getTotalSupply
+                DUG 2;      # @storage : @parameter%getTotalSupply : @storage
+                GET 6;      # nat : @parameter%getTotalSupply : @storage
+                # sp.transfer(__s4.value, sp.tez(0), sp.snd(params)) # nat : @parameter%getTotalSupply : @storage
+                NIL operation; # list operation : nat : @parameter%getTotalSupply : @storage
+                DIG 2;      # @parameter%getTotalSupply : list operation : nat : @storage
+                CDR;        # contract nat : list operation : nat : @storage
+                PUSH mutez 0; # mutez : contract nat : list operation : nat : @storage
+                DIG 3;      # nat : mutez : contract nat : list operation : @storage
+                TRANSFER_TOKENS; # operation : list operation : @storage
+                CONS;       # list operation : @storage
+              }
+              {
+                IF_LEFT
+                  {
+                    SWAP;       # @storage : @parameter%mint
+                    # == mint ==
+                    # sp.verify(sp.sender == self.data.administrator, 'FA1.2_NotAdmin') # @storage : @parameter%mint
+                    DUP;        # @storage : @storage : @parameter%mint
+                    DUG 2;      # @storage : @parameter%mint : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%mint : @storage
+                    CAR;        # address : @parameter%mint : @storage
+                    SENDER;     # @sender : address : @parameter%mint : @storage
+                    COMPARE;    # int : @parameter%mint : @storage
+                    EQ;         # bool : @parameter%mint : @storage
+                    IF
+                      {}
+                      {
+                        PUSH string "FA1.2_NotAdmin"; # string : @parameter%mint : @storage
+                        FAILWITH;   # FAILED
+                      }; # @parameter%mint : @storage
+                    SWAP;       # @storage : @parameter%mint
+                    # if ~ (self.data.balances.contains(params.address)): # @storage : @parameter%mint
+                    DUP;        # @storage : @storage : @parameter%mint
+                    DUG 2;      # @storage : @parameter%mint : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%mint : @storage
+                    GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%mint : @storage
+                    SWAP;       # @parameter%mint : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUP;        # @parameter%mint : @parameter%mint : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUG 2;      # @parameter%mint : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%mint : @storage
+                    CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%mint : @storage
+                    MEM;        # bool : @parameter%mint : @storage
+                    IF
+                      {}
+                      {
+                        SWAP;       # @storage : @parameter%mint
+                        # self.data.balances[params.address] = sp.record(approvals = {}, balance = 0) # @storage : @parameter%mint
+                        UNPAIR;     # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        UNPAIR;     # address : pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        SWAP;       # pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        UNPAIR;     # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        PUSH (option (pair (map address nat) nat)) (Some (Pair {} 0)); # option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        DUP 6;      # @parameter%mint : option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        CAR;        # address : option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                        SWAP;       # @parameter%mint : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }; # @parameter%mint : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                    # self.data.balances[params.address].balance += params.value # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                    UNPAIR;     # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    UNPAIR;     # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    SWAP;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    UNPAIR;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    DUP;        # big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    DUP 6;      # @parameter%mint : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    CAR;        # address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    DUP;        # address : address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    DUG 2;      # address : big_map address (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    GET;        # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    IF_NONE
+                      {
+                        PUSH int 113; # int : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    DUP;        # @some : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    CDR;        # nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    DUP 8;      # @parameter%mint : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    CDR;        # nat : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    ADD;        # nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    UPDATE 2;   # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    SOME;       # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    SWAP;       # address : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%mint
+                    PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                    # self.data.totalSupply += params.value # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                    DUP;        # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                    GET 6;      # nat : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%mint
+                    DIG 2;      # @parameter%mint : nat : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CDR;        # nat : nat : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    ADD;        # nat : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    UPDATE 6;   # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }
+                  {
+                    SWAP;       # @storage : @parameter%setAdministrator
+                    # == setAdministrator ==
+                    # sp.verify(sp.sender == self.data.administrator, 'FA1.2_NotAdmin') # @storage : @parameter%setAdministrator
+                    DUP;        # @storage : @storage : @parameter%setAdministrator
+                    DUG 2;      # @storage : @parameter%setAdministrator : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%setAdministrator : @storage
+                    CAR;        # address : @parameter%setAdministrator : @storage
+                    SENDER;     # @sender : address : @parameter%setAdministrator : @storage
+                    COMPARE;    # int : @parameter%setAdministrator : @storage
+                    EQ;         # bool : @parameter%setAdministrator : @storage
+                    IF
+                      {}
+                      {
+                        PUSH string "FA1.2_NotAdmin"; # string : @parameter%setAdministrator : @storage
+                        FAILWITH;   # FAILED
+                      }; # @parameter%setAdministrator : @storage
+                    SWAP;       # @storage : @parameter%setAdministrator
+                    # self.data.administrator = params # @storage : @parameter%setAdministrator
+                    UNPAIR;     # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%setAdministrator
+                    CDR;        # pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%setAdministrator
+                    DIG 2;      # @parameter%setAdministrator : pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    PAIR;       # pair @parameter%setAdministrator (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    PAIR;       # pair (pair @parameter%setAdministrator (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }; # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                NIL operation; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+              }; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+          }
+          {
+            IF_LEFT
+              {
+                SWAP;       # @storage : @parameter%setPause
+                # == setPause ==
+                # sp.verify(sp.sender == self.data.administrator, 'FA1.2_NotAdmin') # @storage : @parameter%setPause
+                DUP;        # @storage : @storage : @parameter%setPause
+                DUG 2;      # @storage : @parameter%setPause : @storage
+                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%setPause : @storage
+                CAR;        # address : @parameter%setPause : @storage
+                SENDER;     # @sender : address : @parameter%setPause : @storage
+                COMPARE;    # int : @parameter%setPause : @storage
+                EQ;         # bool : @parameter%setPause : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "FA1.2_NotAdmin"; # string : @parameter%setPause : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%setPause : @storage
+                # self.data.paused = params # @parameter%setPause : @storage
+                UPDATE 3;   # @storage
+              }
+              {
+                IF_LEFT
+                  {
+                    SWAP;       # @storage : @parameter%transfer
+                    # == transfer ==
+                    # sp.verify((sp.sender == self.data.administrator) | ((~ self.data.paused) & ((params.from_ == sp.sender) | (self.data.balances[params.from_].approvals[sp.sender] >= params.value))), 'FA1.2_NotAllowed') # @storage : @parameter%transfer
+                    DUP;        # @storage : @storage : @parameter%transfer
+                    DUG 2;      # @storage : @parameter%transfer : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%transfer : @storage
+                    CAR;        # address : @parameter%transfer : @storage
+                    SENDER;     # @sender : address : @parameter%transfer : @storage
+                    COMPARE;    # int : @parameter%transfer : @storage
+                    EQ;         # bool : @parameter%transfer : @storage
+                    IF
+                      {
+                        PUSH bool True; # bool : @parameter%transfer : @storage
+                      }
+                      {
+                        SWAP;       # @storage : @parameter%transfer
+                        DUP;        # @storage : @storage : @parameter%transfer
+                        DUG 2;      # @storage : @parameter%transfer : @storage
+                        GET 3;      # bool : @parameter%transfer : @storage
+                        IF
+                          {
+                            PUSH bool False; # bool : @parameter%transfer : @storage
+                          }
+                          {
+                            DUP;        # @parameter%transfer : @parameter%transfer : @storage
+                            CAR;        # address : @parameter%transfer : @storage
+                            SENDER;     # @sender : address : @parameter%transfer : @storage
+                            COMPARE;    # int : @parameter%transfer : @storage
+                            EQ;         # bool : @parameter%transfer : @storage
+                            IF
+                              {
+                                PUSH bool True; # bool : @parameter%transfer : @storage
+                              }
+                              {
+                                DUP;        # @parameter%transfer : @parameter%transfer : @storage
+                                GET 4;      # nat : @parameter%transfer : @storage
+                                DUP 3;      # @storage : nat : @parameter%transfer : @storage
+                                CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : nat : @parameter%transfer : @storage
+                                GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%transfer : @storage
+                                DUP 3;      # @parameter%transfer : big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%transfer : @storage
+                                CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%transfer : @storage
+                                GET;        # option (pair (map %approvals address nat) (nat %balance)) : nat : @parameter%transfer : @storage
+                                IF_NONE
+                                  {
+                                    PUSH int 59; # int : nat : @parameter%transfer : @storage
+                                    FAILWITH;   # FAILED
+                                  }
+                                  {}; # @some : nat : @parameter%transfer : @storage
+                                CAR;        # map address nat : nat : @parameter%transfer : @storage
+                                SENDER;     # @sender : map address nat : nat : @parameter%transfer : @storage
+                                GET;        # option nat : nat : @parameter%transfer : @storage
+                                IF_NONE
+                                  {
+                                    PUSH int 59; # int : nat : @parameter%transfer : @storage
+                                    FAILWITH;   # FAILED
+                                  }
+                                  {}; # @some : nat : @parameter%transfer : @storage
+                                COMPARE;    # int : @parameter%transfer : @storage
+                                GE;         # bool : @parameter%transfer : @storage
+                              }; # bool : @parameter%transfer : @storage
+                          }; # bool : @parameter%transfer : @storage
+                      }; # bool : @parameter%transfer : @storage
+                    IF
+                      {}
+                      {
+                        PUSH string "FA1.2_NotAllowed"; # string : @parameter%transfer : @storage
+                        FAILWITH;   # FAILED
+                      }; # @parameter%transfer : @storage
+                    SWAP;       # @storage : @parameter%transfer
+                    # if ~ (self.data.balances.contains(params.from_)): # @storage : @parameter%transfer
+                    DUP;        # @storage : @storage : @parameter%transfer
+                    DUG 2;      # @storage : @parameter%transfer : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%transfer : @storage
+                    GET 3;      # big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%transfer : @storage
+                    SWAP;       # @parameter%transfer : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUP;        # @parameter%transfer : @parameter%transfer : big_map address (pair (map %approvals address nat) (nat %balance)) : @storage
+                    DUG 2;      # @parameter%transfer : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%transfer : @storage
+                    CAR;        # address : big_map address (pair (map %approvals address nat) (nat %balance)) : @parameter%transfer : @storage
+                    MEM;        # bool : @parameter%transfer : @storage
+                    IF
+                      {}
+                      {
+                        SWAP;       # @storage : @parameter%transfer
+                        # self.data.balances[params.from_] = sp.record(approvals = {}, balance = 0) # @storage : @parameter%transfer
+                        UNPAIR;     # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        UNPAIR;     # address : pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        SWAP;       # pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        UNPAIR;     # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PUSH (option (pair (map address nat) nat)) (Some (Pair {} 0)); # option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        DUP 6;      # @parameter%transfer : option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        CAR;        # address : option (pair (map address nat) nat) : big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        SWAP;       # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }; # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    # if ~ (self.data.balances.contains(params.to_)): # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    DUP;        # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    DUG 2;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CAR;        # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET 3;      # big_map address (pair (map address nat) nat) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    SWAP;       # @parameter%transfer : big_map address (pair (map address nat) nat) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP;        # @parameter%transfer : @parameter%transfer : big_map address (pair (map address nat) nat) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUG 2;      # @parameter%transfer : big_map address (pair (map address nat) nat) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET 3;      # address : big_map address (pair (map address nat) nat) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    MEM;        # bool : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    IF
+                      {}
+                      {
+                        SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        # self.data.balances[params.to_] = sp.record(approvals = {}, balance = 0) # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        UNPAIR;     # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        UNPAIR;     # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        SWAP;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        UNPAIR;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PUSH (option (pair (map address nat) nat)) (Some (Pair {} 0)); # option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        DUP 6;      # @parameter%transfer : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        GET 3;      # address : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        SWAP;       # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }; # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    # sp.verify(self.data.balances[params.from_].balance >= params.value, 'FA1.2_InsufficientBalance') # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP;        # @parameter%transfer : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET 4;      # nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP 3;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CAR;        # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET 3;      # big_map address (pair (map address nat) nat) : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP 3;      # @parameter%transfer : big_map address (pair (map address nat) nat) : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CAR;        # address : big_map address (pair (map address nat) nat) : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET;        # option (pair (map address nat) nat) : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    IF_NONE
+                      {
+                        PUSH int 62; # int : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CDR;        # nat : nat : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    COMPARE;    # int : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GE;         # bool : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    IF
+                      {}
+                      {
+                        PUSH string "FA1.2_InsufficientBalance"; # string : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        FAILWITH;   # FAILED
+                      }; # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    # self.data.balances[params.from_].balance = sp.as_nat(self.data.balances[params.from_].balance - params.value) # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    DUP;        # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    DUG 2;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    UNPAIR;     # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    UNPAIR;     # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    SWAP;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    UNPAIR;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP;        # big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP 6;      # @parameter%transfer : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CAR;        # address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP;        # address : address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUG 2;      # address : big_map address (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET;        # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    IF_NONE
+                      {
+                        PUSH int 63; # int : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP 7;      # @parameter%transfer : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    GET 4;      # nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DIG 8;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    CAR;        # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    GET 3;      # big_map address (pair (map address nat) nat) : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUP 9;      # @parameter%transfer : big_map address (pair (map address nat) nat) : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    CAR;        # address : big_map address (pair (map address nat) nat) : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    GET;        # option (pair (map address nat) nat) : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    IF_NONE
+                      {
+                        PUSH int 63; # int : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    CDR;        # nat : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    SUB;        # int : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    ISNAT;      # option nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    IF_NONE
+                      {
+                        PUSH int 63; # int : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    UPDATE 2;   # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    SOME;       # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    SWAP;       # address : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    # self.data.balances[params.to_].balance += params.value # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUP;        # big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUP 6;      # @parameter%transfer : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    GET 3;      # address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUP;        # address : address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUG 2;      # address : big_map address (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    GET;        # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    IF_NONE
+                      {
+                        PUSH int 64; # int : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUP;        # @some : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    CDR;        # nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    DUP 8;      # @parameter%transfer : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    GET 4;      # nat : nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    ADD;        # nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    UPDATE 2;   # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    SOME;       # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    SWAP;       # address : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                    PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                    SWAP;       # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    # if (params.from_ != sp.sender) & (~ (sp.sender == self.data.administrator)): # @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    DUP;        # @parameter%transfer : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    CAR;        # address : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    SENDER;     # @sender : address : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    COMPARE;    # int : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    NEQ;        # bool : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    IF
+                      {
+                        SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        DUP;        # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        DUG 2;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        CAR;        # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        CAR;        # address : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        SENDER;     # @sender : address : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        COMPARE;    # int : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        NEQ;        # bool : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }
+                      {
+                        PUSH bool False; # bool : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }; # bool : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                    IF
+                      {
+                        SWAP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        # self.data.balances[params.from_].approvals[sp.sender] = sp.as_nat(self.data.balances[params.from_].approvals[sp.sender] - params.value) # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        DUP;        # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer
+                        DUG 2;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        UNPAIR;     # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        UNPAIR;     # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        SWAP;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        UNPAIR;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DUP;        # big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DUP 6;      # @parameter%transfer : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        CAR;        # address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DUP;        # address : address : big_map address (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DUG 2;      # address : big_map address (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        GET;        # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        IF_NONE
+                          {
+                            PUSH int 66; # int : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                            FAILWITH;   # FAILED
+                          }
+                          {}; # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DUP;        # @some : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        CAR;        # map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DUP 8;      # @parameter%transfer : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        GET 4;      # nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                        DIG 9;      # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))) : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        CAR;        # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        GET 3;      # big_map address (pair (map address nat) nat) : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%transfer
+                        DIG 9;      # @parameter%transfer : big_map address (pair (map address nat) nat) : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        CAR;        # address : big_map address (pair (map address nat) nat) : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        GET;        # option (pair (map address nat) nat) : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        IF_NONE
+                          {
+                            PUSH int 66; # int : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                            FAILWITH;   # FAILED
+                          }
+                          {}; # @some : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        CAR;        # map address nat : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SENDER;     # @sender : map address nat : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        GET;        # option nat : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        IF_NONE
+                          {
+                            PUSH int 66; # int : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                            FAILWITH;   # FAILED
+                          }
+                          {}; # @some : nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SUB;        # int : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        ISNAT;      # option nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        IF_NONE
+                          {
+                            PUSH int 66; # int : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                            FAILWITH;   # FAILED
+                          }
+                          {}; # @some : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SOME;       # option nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SENDER;     # @sender : option nat : map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        UPDATE;     # map address nat : @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        UPDATE 1;   # @some : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SOME;       # option (pair (map address nat) nat) : address : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SWAP;       # address : option (pair (map address nat) nat) : big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        UPDATE;     # big_map address (pair (map address nat) nat) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        PAIR;       # pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        SWAP;       # address : pair (big_map address (pair (map address nat) nat)) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        PAIR;       # pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                        PAIR;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }
+                      {
+                        DROP;       # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                      }; # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }
+                  {
+                    SWAP;       # @storage : @parameter%update_metadata
+                    # == update_metadata ==
+                    # sp.verify(sp.sender == self.data.administrator, 'FA1.2_NotAdmin') # @storage : @parameter%update_metadata
+                    DUP;        # @storage : @storage : @parameter%update_metadata
+                    DUG 2;      # @storage : @parameter%update_metadata : @storage
+                    CAR;        # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : @parameter%update_metadata : @storage
+                    CAR;        # address : @parameter%update_metadata : @storage
+                    SENDER;     # @sender : address : @parameter%update_metadata : @storage
+                    COMPARE;    # int : @parameter%update_metadata : @storage
+                    EQ;         # bool : @parameter%update_metadata : @storage
+                    IF
+                      {}
+                      {
+                        PUSH string "FA1.2_NotAdmin"; # string : @parameter%update_metadata : @storage
+                        FAILWITH;   # FAILED
+                      }; # @parameter%update_metadata : @storage
+                    SWAP;       # @storage : @parameter%update_metadata
+                    # self.data.metadata[params.key] = params.value # @storage : @parameter%update_metadata
+                    UNPAIR;     # pair (address %administrator) (pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    UNPAIR;     # address : pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    SWAP;       # pair (big_map %balances address (pair (map %approvals address nat) (nat %balance))) (big_map %metadata string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    UNPAIR;     # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    SWAP;       # big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    DUP 5;      # @parameter%update_metadata : big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    CDR;        # bytes : big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    SOME;       # option bytes : big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)) : @parameter%update_metadata
+                    DIG 5;      # @parameter%update_metadata : option bytes : big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    CAR;        # string : option bytes : big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    UPDATE;     # big_map string bytes : big_map address (pair (map %approvals address nat) (nat %balance)) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    SWAP;       # big_map address (pair (map %approvals address nat) (nat %balance)) : big_map string bytes : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    PAIR;       # pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes) : address : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    SWAP;       # address : pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    PAIR;       # pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes)) : pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))
+                    PAIR;       # pair (pair address (pair (big_map address (pair (map %approvals address nat) (nat %balance))) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+                  }; # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+              }; # pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+            NIL operation; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+          }; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+      }; # list operation : pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply)))
+    PAIR;       # pair (list operation) (pair (pair address (pair (big_map address (pair (map address nat) nat)) (big_map string bytes))) (pair (bool %paused) (pair (big_map %token_metadata nat (pair (nat %token_id) (map %token_info string bytes))) (nat %totalSupply))))
+  };

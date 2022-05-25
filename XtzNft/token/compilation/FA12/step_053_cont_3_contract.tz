@@ -1,0 +1,11 @@
+parameter (address %target);
+storage   (option address);
+code
+  {
+    CAR;        # @parameter
+    # == target ==
+    # self.data.last = sp.some(params) # @parameter
+    SOME;       # option address
+    NIL operation; # list operation : option address
+    PAIR;       # pair (list operation) (option address)
+  };

@@ -1,0 +1,1 @@
+sp.record(key = '', value = sp.bytes('0x00'))

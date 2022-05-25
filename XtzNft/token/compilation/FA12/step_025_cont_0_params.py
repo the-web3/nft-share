@@ -1,0 +1,1 @@
+sp.record(spender = sp.address('tz1Ns3YQJR6piMZ8GrD2iYu94Ybi1HFfNyBP'), value = 5)
