@@ -1,9 +1,9 @@
 const { expect } = require("chai");
 
 
-describe("Test SteNft", function() {
+describe("Test EthNft", function() {
     it("It should deploy the contract, mint a token, and resolve to the right URI", async function() {
-        const NFT = await ethers.getContractFactory("SteNft");
+        const NFT = await ethers.getContractFactory("EthNft");
         const nft = await NFT.deploy();
         const URI = "ipfs://QmecKFh9YamJpS6VmntCpZm65oKtv7WHu7tEwsCquYSrSD";
         await nft.deployed();

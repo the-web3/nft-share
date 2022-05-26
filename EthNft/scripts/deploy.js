@@ -2,9 +2,8 @@ const hre = require("hardhat");
 
 
 async function main() {
-    const NFT = await hre.ethers.getContractFactory("SteNft");
+    const NFT = await hre.ethers.getContractFactory("EthNft");
     const nft = await NFT.deploy();
-    console.log("nft===", nft)
     const URI = "ipfs://QmecKFh9YamJpS6VmntCpZm65oKtv7WHu7tEwsCquYSrSD";
     await nft.mint("0xECF09D36f07EC396f97DD448D9E4bcb19fE4Ec3A", URI)
     await nft.deployed();

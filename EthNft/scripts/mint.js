@@ -8,7 +8,7 @@ const PRIVATE_KEY = "a1724a3be3134c9e64d9243428926088c1f4a236e777c19e3c7a974e0da
 
 async function mintNFT(tokenURI) {
     const web3 = new Web3(Web3.givenProvider || API_URL );
-    const contract = require("../artifacts/contracts/SteNft.sol/SteNft.json")
+    const contract = require("../artifacts/contracts/EthNft.sol/EthNft.json")
     const contractAddress = "0x75192e880eAad55696b22a1efCA36eff5E889cC9"
     const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
     const nonce = await web3.eth.getTransactionCount(ADDRESS, "latest")
