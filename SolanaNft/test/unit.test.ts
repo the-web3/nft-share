@@ -1,4 +1,4 @@
-import {  MintNft } from '../src/mint';
+import {  MintNft } from '../src/jsNextMint';
 
 
 describe('NFT test', ()=>{
