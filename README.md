@@ -142,21 +142,21 @@ ERC-1155 的另一个优点是它改进了以前 ERC 令牌标准的整体功能
 ##### 4.4. 总结
 ERC20， ERC721 和 ERC1155 都各自有自己的标准接口，这个大家可以去阅读源码实现，这里不再做过多的叙述。
 #### 5. Mint NFT 前的准备
-- Solidity：ETH 智能合约开发语言；
-- Hardhat：合约编译，部署框架，功能强大，适合项目开发；
-- Truffle：合约编译，部署框架；
-- Remix：在线的合约编译，部署工具，很好使用，适合小白入手；
-- Metamas：钱包，当然你可以使用其他钱包；
-- Influra: 一家提供 ETH 开放节点的服务上，当然还有其他很多服务商，例如 alchemy；
-- 测试币: 此处看你使用的测试，可以去相应的测试网获取测试，如果使用主网，去交易所买 ETH 就行。
+- [solidity 合约开发语言](https://docs.soliditylang.org/en/v0.8.14/), 点击进去可以选择相应的版本学习。
+- [hardhat](https://hardhat.org/getting-started/)，推荐使用 hardhat, 我自己使用的就是 hardhat
+- [truffle](https://trufflesuite.com/docs/)
+- [remix工具](http://remix.ethereum.org/)； [remix 学习文档](https://remix-ide.readthedocs.io/en/latest/)
+- [metamask](https://metamask.io/)
+- [Influra](https://infura.io/): 一家提供 ETH 开放节点的服务上，当然还有其他很多服务商，例如 [alchemy](https://www.alchemy.com/)；
+- [测试币](https://faucet.rinkeby.io/): 此处看你使用的测试，可以去相应的测试网获取测试，如果使用主网，去交易所买 ETH 就行。
 
 #### 6. Mint NFT
 
-完整代码
+[完整代码](https://github.com/guoshijiang/nft-share/tree/main/EthNft)
 
-#### 7. QA
 
 ### 五. Solana 和 Solana  NFT 相关的技术原理
+
 #### 1. 什么是 Solana
 
 Solana 是一个去中心化的区块链，旨在为全世界提供可扩展、用户友好的应用程序。
@@ -164,20 +164,25 @@ Solana 是一个去中心化的区块链，旨在为全世界提供可扩展、�
 Solana 是世界上最快的区块链(每个链都这样说，Toncoin 还把 Solana, ETH2.0 和 它自己做了一个对比，得出的结论是，Toncoin 最牛逼)，也是加密领域发展最快的生态系统，拥有数千个项目，涵盖 DeFi、NFT、Web3 等。
 
 #### 2. Solana NFT 标准
+
 Solana 其实每个项目方搞的可能不一样，他不像 ETH 那样由标准的协议，目前 solana 里面做 NFT 比较流行的一个代码库是 metaplex, 基本上快成行业标准了。
+
 #### 3. Mint NFT 前的准备
-- Solana cli
-- Metaplex
-- Web3
-- Rust
-- anchor
+- [Solana cli](https://docs.solana.com/cli/conventions)
+- [Metaplex](https://www.metaplex.com/)
+- [Web3](https://github.com/solana-labs/solana-web3.js)
+- [Rust](https://github.com/solana-labs/solana-web3.js)
+- [anchor](https://project-serum.github.io/anchor/getting-started/introduction.html)
+
 #### 4. Mint NFT
-完整代码
-#### 5. QA
+
+[完整代码](https://github.com/guoshijiang/nft-share/tree/main/SolanaNft)
+
 
 ### 六.  Tezos 上面的 NFT 相关的技术原理
 
 #### 1. 什么是 Tezos
+
 Tezos 是一个开源平台，由全球验证者、研究人员和建设者社区支持，旨在解决区块链采用所面临的挑战。通过设计，Tezos 具有长期可升级性、开放参与、协作和智能合约安全性。
 
 Tezos 是一种开创性的权益证明区块链，从一开始就构建为比其工作量证明同类产品需要更少的能源。Tezos 开发人员是一个优先考虑可持续性和长期功能而不是表面功能的社区的一部分。
@@ -188,76 +193,31 @@ Tezos 提供了高水平的安全性，甚至能够托管最关键的金融应�
 
 #### 2. Tezos 智能合约
 
-Tezos 智能合约是用 Michelson 编写的，这是一种低级堆栈语言。我们建议您使用可编译为 Michelson 的高级语言之一开发您的合约：SmartPy、Ligo 和 Archetype。这些语言支持 Tezos 的所有功能，因此请选择最符合您偏好的语言。
+Tezos [智能合约](https://wiki.tezos.com/build/smart-contracts/intro)是用 Michelson 编写的，这是一种低级堆栈语言。我们建议您使用可编译为 Michelson 的高级语言之一开发您的合约：SmartPy、Ligo 和 Archetype。这些语言支持 Tezos 的所有功能，因此请选择最符合您偏好的语言。
 
 #### 3. Tezos NFT 标准
-Tezos nft
-tzip
-FA2 - 统一代币合约接口的标准，支持广泛的代币类型和实现。
-tzNFT - 一个向用户展示如何创建 FA2 NFT 合约并与之交互的教程。
-TZIP-021 - 一种新兴的合同多媒体元数据标准。
+
+[Tezos nft](https://wiki.tezos.com/learn/uses-of-tezos/nft)
+[tzip](https://gitlab.com/tezos/tzip)
+[FA2](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md) - 统一代币合约接口的标准，支持广泛的代币类型和实现。
+[tzNFT](https://github.com/tqtezos/nft-tutorial) - 一个向用户展示如何创建 FA2 NFT 合约并与之交互的教程。
+[TZIP-021](https://gitlab.com/tzip/tzip/-/blob/tzip-21-spec/proposals/tzip-21/tzip-21.md) - 一种新兴的合同多媒体元数据标准。
 
 #### 4. Mint NFT 前的准备
-SmartPy
-Online SmartPy Ide
-SmartPy Cli
-Ligo
-Michelson
+
+[SmartPy](https://wiki.tezos.com/build/smart-contracts/smartpy)
+[Online SmartPy Ide](https://smartpy.io/ide)
+[SmartPy Cli](https://smartpy.io/docs/cli/)
+[Ligo](https://wiki.tezos.com/build/smart-contracts/ligo)
+[Michelson](https://wiki.tezos.com/build/smart-contracts/michelson)
 
 #### 5. Mint NFT
-完整代码
 
-#### 6. QA
+[完整代码](https://github.com/guoshijiang/nft-share/tree/main/XtzNft)
+
 
 ### 七. QA
 
 #### 附录：
 - 代码获取地址：https://github.com/guoshijiang/nft-share
-
-
-
-
-
-
-
-
-
-## nft Mint 技术分享
-
-### 一. ETH 系列(EVM系列的都一样)
-#### 1.需要掌握的技能
-
-[solidity 合约开发语言](https://docs.soliditylang.org/en/v0.8.14/), 点击进去可以选择相应的版本学习。
-
-[hardhat](https://hardhat.org/getting-started/)，推荐使用 hardhat, 我自己使用的就是 hardhat
-
-[remix工具](http://remix.ethereum.org/)； [remix 学习文档](https://remix-ide.readthedocs.io/en/latest/)
-
-[truffle](https://trufflesuite.com/docs/)
-
-[metamask](https://metamask.io/)
-
-[in]
-
-#### 2.mint方式
-使用工具mint
-自己写代码mint
-
-#### 3.NFT mint
-
-
-### 二.SOL 系列
-#### 1.需要掌握的技能
-
-#### 2.使用的工具
-
-#### 2.NFT mint
-
-
-### 三.XTZ 系列
-#### 1.需要掌握的技能
-
-#### 2.使用的工具
-
-#### 2.NFT mint
 
