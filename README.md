@@ -27,21 +27,37 @@
 Tezos 就比较小众一些了，我们这次分享，不会花很多时间去讲他。
 
 ### 二.  什么是 NFT
+
 关于 NFT 的定义大家可能已经在很多地方看到过了，叫做非同质通证或者半同质化通证。当然，看到这个词对于理解NFT一点帮助都没有，大部分非圈内人士都还是会一头雾水，这是什么玩意。首先，我们需要了解什么是同质化，什么是半同质化， 什么是非同质化。
+
 #### 1. 名词解释
+
 ##### 1.1. 同质化
+
 同质化指每个资产都是相同的，可相互替换且可分割。我们在日常生活中使用到的同质化资产包括美元、比特币以及企业发行的积分；例如：1 比特币，可以分成 10 个 0.1 个比特币。
+
 ##### 1.2.半同质化
+
 半同质化和非同质化略有不同。 因为它们是半可替代的，所以它们本身与其他 NFT 不同。 但是，它们的数量可能大于一，可以以交易包的形式转账。
+
 ##### 1.3. 非同质化
+
 非同质化资产：指每个资产是独一无二的，相互完全独立，不可分割的。比如，一副画就是一种非同质化资产。‍
+
 ##### 1.4.非同质化通证
+
 非同质化通证是在这个“非同质化”的概念上进一步做了扩展，利用以太坊等区块链网络来代表独一无二的实物或数字资产。NFT的所有权通过公共区块链网络进行验证和追踪，用户可以验证每个NFT的真实性，并追踪溯源。
+
 ##### 1.5. NFT
+
 NFT真正的定义应该是：由原创者在区块链上发行的“真实性证明”，通过加密技术来证明NFT的持有者是官方标的资产的真实所有者。‍
+
 #### 2. NFT 的表现形式
+
 NFT 目前给我们最直观的感觉就是文子，图片，视频文件，音频文件，这也是他们的表现形式之一，从技术的角度出发，NFT 其实就是带有属性的，通过智能合约的形式写到区块链里面独一无二的文子，图片，视频文件和音频文件，用户可以通过区块链来验证每个NFT的真实性，并追踪溯源。
+
 #### 3. NFT 的价值
+
 关于 NFT 的价值，我这里就不多说了，我们这个是一个技术分享，教大家怎么去 mint NFT，而不是教大家炒作 NFT，当然，我也没有这个实力教大家炒 NFT。NFT 有没有价值，想想那些抽象派的画作就可以得出结论。经济形势好的时候，它可以天价， 经济形势不好的时候，可能一个馒头也比它的价值高。
 上面说了那么多废话，接下来我们进入正题了。
 
@@ -71,6 +87,7 @@ Ethereum 是一个加密数字货币的公链区块链网络，由 EVM，共识�
 
 加密机制确保一旦交易被验证为有效并添加到区块链，它们以后就不能被篡改。相同的机制还确保所有交易都在适当的“权限”下签名和执行（除了 Alice 自己之外，没有人应该能够从 Alice 的账户发送数字资产）。
 #### 2. 什么是智能合约
+
 智能合约（英语：Smart contract ）是一种旨在以信息化方式传播、验证或执行合同的计算机协议。智能合约允许在没有第三方的情况下进行可信交易，这些交易可追踪且不可逆转。
 
 在 Ethereum 上，智能合约可以编译成在 EVM 上执行的字节码，常用的开发语言是 solidity, 一种类 Js 的语言，如果你熟悉 Js，学习 solididy 应该不难
@@ -80,34 +97,46 @@ Ethereum 是一个加密数字货币的公链区块链网络，由 EVM，共识�
 ERC是Ethereum Request for Comments（以太坊征求意见提案）的缩写，代表以太坊已正式化的提案，它是由EIP(Ethereum Improvement Proposals以太坊升级提案)经过以太坊开发团队各种审议和测试后通过的一种提案,即对有用提案进行标准化，从而实现对开发者提供模版帮助以及标准限制
 
 ##### 3.1. 什么是 RRC
+
 ERC 是 Ethereum Request for Comments 的首字母缩写词。它就像技术文档，定义了适用于希望利用以太坊生态系统的一组开发人员和用户的方法、行为、创新和研究。
 您可能想知道谁有权创建和管理 ERC。以太坊的智能合约程序员负责编写与 ERC 相关的文档，以描述每个基于以太坊的代币必须遵守的规则集。他们还经常审查这些文件并对其进行评论以进一步改进。
 要轻松理解 ERC，请考虑一个工程任务组，它向开发人员传达技术说明和规则，如果每个人都想利用特定生态系统的好处，他们都需要遵守这些规则。
+
 ##### 3.2. 什么是 ERC 代币标准
+
 ERC 代币标准解释了建立在以太坊区块链上的所有 ERC 代币的某些规则。以太坊社区对这套规则进行适当的审查，并根据不断变化的需求进行修改。此外，ERC 标准旨在允许 ERC 代币无缝交互。
+
 ERC-20、ERC-721 和 ERC-1155 是三种流行的 ERC 代币标准或协议，它们在主要行业都有应用。以太坊社区完全认可这些代币标准，它们在具体特性和功能方面有所不同。
+
 在了解令牌标准的确切含义或它的工作原理之前，我们应该首先了解以太坊智能合约标准的要领。以下语句对其进行了定义：
   - 智能合约描述了智能合约程序员应该遵守的规则，以利用以太坊网络的潜在利益。
   - 这些标准适用于支持智能合约和去中心化应用程序（dApps）开发的区块链。
   - 智能合约标准包含代币标准、库主题和格式、名称注册表和相关详细信息。
+
 ERC 代币标准只是智能合约标准的另一个名称。以太坊上的智能合约必须遵守标准或规则，才能实现代币创建、交易处理、支出等基本功能。通过引入改进的 ERC 标准，以太坊释放其生态系统的真正潜力，并赋能更具体的智能合同，有助于网络的发展。
 #### 4. ERC20，ERC721 和 ERC1155
 
 ##### 4.1. ERC20
 
 ERC-20 于 2015 年首次提出，两年后的 2017 年最终被整合到以太坊生态系统中。ERC-20 引入了在以太坊区块链上创建可替代代币的代币标准。简而言之，ERC-20 由支持开发相同代币的属性组成。 例如，代表货币的 ERC-20 代币可以像以太坊的原生货币 Ether 一样发挥作用。这意味着 1 个代币将始终等于另一个代币的价值，并且可以相互互换。ERC 20 代币为可替代代币的开发设定了标准，但可替代代币实际上可以代表什么，下面举一些例子：
+ERC-20 于 2015 年首次提出，两年后的 2017 年最终被整合到以太坊生态系统中。ERC-20 引入了在以太坊区块链上创建可替代代币的代币标准。简而言之，ERC-20 由支持开发相同代币的属性组成。 例如，代表货币的 ERC-20 代币可以像以太坊的原生货币 Ether 一样发挥作用。这意味着 1 个代币将始终等于另一个代币的价值，并且可以相互互换。ERC 20 代币为可替代代币的开发设定了标准，但可替代代币实际上可以代表什么，下面举一些例子：
 - 任何在线平台的声誉点。
 - 彩票和计划。
 - 金融资产，例如公司的股票、股息和股票
 - 法定货币，包括美元。
 - 金盎司，还有更多……
+
 以太坊需要一个强大的标准来统一整个操作，以支持代币开发并在区块链网络上对其进行监管。这就是 ERC-20 发挥作用的地方。
+
 去中心化世界的开发人员将 ERC-20 代币标准广泛用于不同目的，例如开发与以太坊生态系统中可用的其他产品和服务兼容的可互操作代币应用程序。
+
 ##### 4.1.1. ERC-20 代币的特点
+
 - ERC 20 代币是“可替代代币”的另一个名称。
 - 可替代性定义了资产或代币交换相同价值资产的能力，比如两张 1 美元的钞票。
 - 无论其特性和结构如何，每个 ERC-20 代币都严格等同于相同的值。
 - ERC 代币最受欢迎的应用领域是稳定币、治理代币和 ICO。
+
 #### 4.2. ERC-721：不可替代的代币
 
 要了解 ERC-721 标准，您必须首先了解 NFT（不可替代 Token ）。
@@ -120,27 +149,37 @@ Cryptokitties（广泛使用的不可替代代币）的创始人兼首席技术�
 - 游戏内收藏品
 - 游戏角色
 - 任何卡通人物和数百万其他 NFT ......
+
 这种特殊类型的 Token 为使用 NFT 的企业带来了惊人的可能性。同样，ERC-721 也为他们带来了挑战，为了应对这些挑战，ERC-721 标准开始发挥作用。
+
 请注意，每个 NFT 都有一个称为 tokenId 的 uint256 变量。因此，对于每个 EBR-721 合约，对合约地址 - uint256 tokenId 必须是唯一的。
+
 此外，dApps 还应该有一个“转换器”来规范 NFT 的输入和输出过程。例如，转换器将 tokenId 视为输入并输出不可替代的令牌，例如僵尸、杀戮、游戏收藏品等的图像。
 
 ###### 4.2.1. ERC-721 代币的特征
+
 - ERC-721 代币是不可替代代币 (NFT) 的标准。
 - 这些代币不能交换任何同等价值的东西，因为它们是独一无二的。
 - 每个 ERC-721 代表各自 NFT 的价值，可能不同。
 - ERC-721 代币最受欢迎的应用领域是游戏中的 NFT。
+
 #### 4.3. ERC-1155 多代币标准
+
 结合 ERC-20 和 ERC-720 的能力，Witek Radomski（Enjin 的 CTO）为以太坊智能合约引入了一个包罗万象的代币标准。它是一个标准接口，支持开发可替代、半可替代、不可替代的代币和其他具有通用智能联系人的配置。
 现在，您可以使用单一界面满足所有代币开发需求并解决问题，使 ERC-1155 成为游戏规则改变者。这种独特代币标准的想法是开发一个强大的智能合约接口，代表和管理不同形式的 ERC 代币。
 ERC-1155 的另一个优点是它改进了以前 ERC 令牌标准的整体功能，使以太坊生态系统更加高效和可扩展。
 
 ###### 4.3.1. ERC-1155 代币的特征
+
 - ERC-1155 是一个智能合约接口，代表可替代、半可替代和不可替代的代币。
 - ERC-1155 可以执行 ERC-20 和 ERC-720 的功能，甚至可以同时执行两者。
 - 每个代币可以根据代币的性质代表不同的价值；可替代的、半可替代的或不可替代的。
 - ERC-1155 适用于创建 NFT、可兑换购物券、ICO 等。
+
 ##### 4.4. 总结
+
 ERC20， ERC721 和 ERC1155 都各自有自己的标准接口，这个大家可以去阅读源码实现，这里不再做过多的叙述。
+
 #### 5. Mint NFT 前的准备
 - [solidity 合约开发语言](https://docs.soliditylang.org/en/v0.8.14/), 点击进去可以选择相应的版本学习。
 - [hardhat](https://hardhat.org/getting-started/)，推荐使用 hardhat, 我自己使用的就是 hardhat
@@ -152,8 +191,7 @@ ERC20， ERC721 和 ERC1155 都各自有自己的标准接口，这个大家可�
 
 #### 6. Mint NFT
 
-[完整代码](https://github.com/guoshijiang/nft-share/tree/main/EthNft)
-
+- [完整代码](https://github.com/guoshijiang/nft-share/tree/main/EthNft)
 
 ### 五. Solana 和 Solana  NFT 相关的技术原理
 
@@ -176,7 +214,7 @@ Solana 其实每个项目方搞的可能不一样，他不像 ETH 那样由标�
 
 #### 4. Mint NFT
 
-[完整代码](https://github.com/guoshijiang/nft-share/tree/main/SolanaNft)
+- [完整代码](https://github.com/guoshijiang/nft-share/tree/main/SolanaNft)
 
 
 ### 六.  Tezos 上面的 NFT 相关的技术原理
@@ -197,23 +235,23 @@ Tezos [智能合约](https://wiki.tezos.com/build/smart-contracts/intro)是用 M
 
 #### 3. Tezos NFT 标准
 
-[Tezos nft](https://wiki.tezos.com/learn/uses-of-tezos/nft)
-[tzip](https://gitlab.com/tezos/tzip)
-[FA2](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md) - 统一代币合约接口的标准，支持广泛的代币类型和实现。
-[tzNFT](https://github.com/tqtezos/nft-tutorial) - 一个向用户展示如何创建 FA2 NFT 合约并与之交互的教程。
-[TZIP-021](https://gitlab.com/tzip/tzip/-/blob/tzip-21-spec/proposals/tzip-21/tzip-21.md) - 一种新兴的合同多媒体元数据标准。
+- [Tezos nft](https://wiki.tezos.com/learn/uses-of-tezos/nft)
+- [tzip](https://gitlab.com/tezos/tzip)
+- [FA2](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md) - 统一代币合约接口的标准，支持广泛的代币类型和实现。
+- [tzNFT](https://github.com/tqtezos/nft-tutorial) - 一个向用户展示如何创建 FA2 NFT 合约并与之交互的教程。
+- [TZIP-021](https://gitlab.com/tzip/tzip/-/blob/tzip-21-spec/proposals/tzip-21/tzip-21.md) - 一种新兴的合同多媒体元数据标准。
 
 #### 4. Mint NFT 前的准备
 
-[SmartPy](https://wiki.tezos.com/build/smart-contracts/smartpy)
-[Online SmartPy Ide](https://smartpy.io/ide)
-[SmartPy Cli](https://smartpy.io/docs/cli/)
-[Ligo](https://wiki.tezos.com/build/smart-contracts/ligo)
-[Michelson](https://wiki.tezos.com/build/smart-contracts/michelson)
+- [SmartPy](https://wiki.tezos.com/build/smart-contracts/smartpy)
+- [Online SmartPy Ide](https://smartpy.io/ide)
+- [SmartPy Cli](https://smartpy.io/docs/cli/)
+- [Ligo](https://wiki.tezos.com/build/smart-contracts/ligo)
+- [Michelson](https://wiki.tezos.com/build/smart-contracts/michelson)
 
 #### 5. Mint NFT
 
-[完整代码](https://github.com/guoshijiang/nft-share/tree/main/XtzNft)
+- [完整代码](https://github.com/guoshijiang/nft-share/tree/main/XtzNft)
 
 
 ### 七. QA
